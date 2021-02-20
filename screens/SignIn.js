@@ -1,111 +1,100 @@
 import React from 'react';
 import {
-  View,
-  TouchableOpacity,
-  Text,
-  Image,
-  StyleSheet,
-  Dimensions,
+	View,
+	Text,
+	Image,
+	StyleSheet,
+	Dimensions,
+	TouchableHighlight
 } from 'react-native';
 
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as authActions from '../store/Actions/authActions';
 
 import GoogleApi from '../util/googleApi';
-import {
-  GoogleSigninButton,
-} from '@react-native-community/google-signin';
 
-class SignIn extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+class SignInCard extends React.Component {
+	constructor(props) {
+		super(props);
+	}
 
-  signIn(type) {
-    GoogleApi.signIn()
-      .then((result) => {
-        console.log(result);
-        let authState = {
-          isSignedIn: true,
-          accessToken: result.accessToken,
-          userType: type,
-          userName: result.user.name,
-          userPhotoUrl: result.user.photoUrl,
-          userEmail: result.user.email,
-        };
-        this.props.authActions.setAuth(authState);
-      })
-      .catch((error) => console.log(error));
-  }
+	signIn(type) {
+		GoogleApi.signIn()
+			.then((result) => {
+				let authState = {
+					isSignedIn: true,
+					userType: type,
+					userName: result.user.name,
+					userPhotoUrl: result.user.photo,
+					userEmail: result.user.email,
+				};
+				this.props.superProps.authActions.setAuth(authState);
+			})
+			.catch((error) => console.log(error));
+	}
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.imageView}>
-          <Image
-            style={styles.image}
-            source={require('../images/orgImage.jpg')}
-          />
-          <View style={{position: 'absolute'}}>
-            <GoogleSigninButton
-              style={{width: 192, height: 48}}
-              size={GoogleSigninButton.Size.Wide}
-              color={GoogleSigninButton.Color.Dark}
-              onPress={() => this.signIn("organization")}
-            />
-            <Text style={styles.imageText}>Organization</Text>
-          </View>
-        </View>
-        <View style={styles.imageView}>
-          <Image
-            style={styles.image}
-            source={require('../images/volunteerImage.jpg')}
-          />
-          <View style={{position: 'absolute'}}>
-            <GoogleSigninButton
-              style={{width: 192, height: 48}}
-              size={GoogleSigninButton.Size.Wide}
-              color={GoogleSigninButton.Color.Dark}
-              onPress={() => this.signIn("volunteer")}
-            />
-            <Text style={styles.imageText}>Volunteer</Text>
-          </View>
-        </View>
-      </View>
-    );
-  }
+	render() {
+		return (
+			<TouchableHighlight
+				onPress={() => {
+					this.signIn(this.props.role)
+				}}>
+				<View style={styles.imageView}>
+					<Image
+						style={styles.image}
+						source={this.props.imageUrl}
+					/>
+					<Text style={styles.imageText}>{this.props.role}</Text>
+				</View>
+			</TouchableHighlight>
+		)
+	}
+}
+
+const SignIn = props => {
+	const url = {
+		volunteer: require(`../images/volunteerLanding.jpg`),
+		organization: require(`../images/organizationLanding.jpg`)
+	}
+	return (
+		<View style={styles.container}>
+			<SignInCard superProps = {props} imageUrl={url.volunteer} role="volunteer" />
+			<SignInCard superProps = {props} imageUrl={url.organization} role="organization" />
+		</View>
+	);
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  imageView: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  image: {
-    height: Dimensions.get('screen').height / 2,
-    width: Dimensions.get('window').width,
-  },
-  imageText: {
-    fontWeight: 'bold',
-    fontSize: 50,
-    color: 'white',
-  },
+	container: {
+		flex: 1,
+	},
+	imageView: {
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	image: {
+		height: Dimensions.get('screen').height / 2,
+		width: Dimensions.get('window').width,
+	},
+	imageText: {
+		position: 'absolute',
+		fontWeight: 'bold',
+		fontSize: 50,
+		color: 'white',
+	},
 });
 
 function mapStateToProps(state) {
-  return {
-    isSignedIn: state.authReducer.isSignedIn,
-  };
+	return {
+		isSignedIn: state.authReducer.isSignedIn,
+	};
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    authActions: bindActionCreators(authActions, dispatch),
-  };
+	return {
+		authActions: bindActionCreators(authActions, dispatch),
+	};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
