@@ -18,7 +18,7 @@ class Profile extends React.Component {
     };
 
     signOut() {
-        GoogleApi.signOut(this.props.accessToken)
+        GoogleApi.signOut()
         .then(() => {
             this.props.authActions.clearAuth();
         })
