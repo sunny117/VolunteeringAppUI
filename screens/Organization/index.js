@@ -14,6 +14,7 @@ import * as authActions from '../../store/Actions/authActions';
 import OrganizationApi from '../../util/organizationApi';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 
 class Organization extends React.Component {

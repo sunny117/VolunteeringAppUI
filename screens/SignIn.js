@@ -22,6 +22,7 @@ class SignInCard extends React.Component {
 	signIn(type) {
 		GoogleApi.signIn()
 			.then((result) => {
+                console.log(result);
 				let authState = {
 					isSignedIn: true,
 					userType: type,

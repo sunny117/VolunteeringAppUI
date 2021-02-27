@@ -22,7 +22,7 @@ class Screens extends React.Component {
                         .then(result => {
                             let authState = {
                                 isSignedIn: true,
-                                userType: 'volunteer',
+                                userType: this.props.userType,
                                 userName: result.user.name,
                                 userPhotoUrl: result.user.photo,
                                 userEmail: result.user.email,
