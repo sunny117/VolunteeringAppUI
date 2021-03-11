@@ -3,6 +3,7 @@ import { createStore, combineReducers } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import authReducer from './Reducers/authReducer';
 import sampleReducer from './Reducers/sampleReducer';
+import activityReducer from './Reducers/activity'
 
 const persistConfig = {
     key: 'root',
@@ -11,7 +12,8 @@ const persistConfig = {
 
 const reducers = combineReducers({
     authReducer: persistReducer(persistConfig, authReducer),
-    sampleReducer
+    sampleReducer,
+    activityReducer
 });
 
 export const store = createStore(
