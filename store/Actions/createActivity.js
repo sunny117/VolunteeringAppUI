@@ -6,6 +6,7 @@ export function setHeading( heading ) {
 }
 
 export function setType( value ) {
+    console.log(value)
 	return {
 		type: 'SET_TYPE',
 		value
