@@ -1,6 +1,22 @@
 import api from './apiExports';
 
 const OrganizationApi = {
+
+    createActivity(activity) {
+        return fetch(`${api.serverAddress}/organization/activity`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json'
+             },
+            body: JSON.stringify(activity)
+        })
+        .then(response => response.json())
+        .then(data => data)
+        .then(error => {
+            console.log(error)
+        })
+    },
+
     getOrganization(email) {
         return fetch(`${api.serverAddress}/organization/user_details/${encodeURIComponent(email)}`)
             .then(response => {
