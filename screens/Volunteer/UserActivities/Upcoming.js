@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import Card from '../../../components/Card';
 
 import { connect } from "react-redux";
@@ -25,20 +25,20 @@ class Upcoming extends React.Component {
             <Card>
                 <View style={styles.valueContainer}>
                     <Text style={styles.valueHeader}>Description</Text>
-                    <Text style={styles.value}>{this.props.item.description}</Text>
+                    <Text style={styles.value}>{titem.description}</Text>
                 </View>
                 <View style={styles.valueContainer}>
                     <Text style={styles.valueHeader}>Type</Text>
-                    <Text style={styles.value}>{this.props.item.activityType}</Text>
+                    <Text style={styles.value}>{item.type}</Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <View style={styles.valueContainer}>
                         <Text style={styles.valueHeader}>Start</Text>
-                        <Text style={styles.value}>{this.props.item.startDate}</Text>
+                        <Text style={styles.value}>{item.startDate}</Text>
                     </View>
                     <View style={styles.valueContainer}>
                         <Text style={styles.valueHeader}>End</Text>
-                        <Text style={styles.value}>{this.props.item.endDate}</Text>
+                        <Text style={styles.value}>{item.endDate}</Text>
                     </View>
                 </View>
             </Card>
@@ -55,7 +55,7 @@ class Upcoming extends React.Component {
                         <FlatList
                             data={this.props.upcomingActivities}
                             renderItem={this.renderActivity}
-                            keyExtractor={item => item.id}
+                            keyExtractor={item => item._id}
                         />
                     </View>
                 }
