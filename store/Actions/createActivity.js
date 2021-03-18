@@ -6,7 +6,6 @@ export function setHeading( heading ) {
 }
 
 export function setType( value ) {
-    console.log(value)
 	return {
 		type: 'SET_TYPE',
 		value
@@ -41,4 +40,10 @@ export function setDescription( description ) {
 		type: 'SET_DESCRIPTION',
 		description
 	}
+}
+
+export function resetState() {
+    return {
+        type: "RESET_STATE"
+    }
 }
