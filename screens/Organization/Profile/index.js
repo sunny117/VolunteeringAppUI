@@ -19,28 +19,26 @@ class Profile extends React.Component {
 
     signOut() {
         GoogleApi.signOut()
-        .then(() => {
-            this.props.authActions.clearAuth();
-        })
-        .catch(error => {
-            console.log(error);
-        })
+            .then(() => {
+                this.props.authActions.clearAuth();
+            })
+            .catch(error => {
+                console.log(error);
+            })
     };
 
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <View style={styles.menu}>
-                        <TouchableOpacity onPress={() => this.props.navigation.toggleDrawer()}>
-                            <Image
-                                style={styles.iconSmall}
-                                source={require('../../../images/menu.png')}
-                            />
-                        </TouchableOpacity>
-                    </View>
+                    {this.props.userPhotoUrl ?
+                        <Image style={styles.avatar} source={{ uri: this.props.userPhotoUrl }} />
+                        :
+                        <View style={{ ...styles.avatar, alignItems: 'center', justifyContent: 'center', backgroundColor: '#00BFFF' }}>
+                            <Text style={{ fontWeight: 'bold', fontSize: 50, color: 'white' }}>{this.props.userName[0].toUpperCase()}</Text>
+                        </View>
+                    }
                 </View>
-                <Image style={styles.avatar} source={{ uri: this.props.userPhotoUrl }} />
                 <View style={styles.body}>
                     <View style={styles.bodyContent}>
                         <Text style={styles.name}>{this.props.userName}</Text>
@@ -80,7 +78,6 @@ const styles = StyleSheet.create({
         borderColor: "white",
         marginBottom: 10,
         alignSelf: 'center',
-        position: 'absolute',
         marginTop: 130
     },
     body: {
