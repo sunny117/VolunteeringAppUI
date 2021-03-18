@@ -4,6 +4,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import authReducer from './Reducers/authReducer';
 import sampleReducer from './Reducers/sampleReducer';
 import orgActivityReducer from './Reducers/orgActivityReducer';
+import volActivityReducer from './Reducers/volActivityReducer';
 import activityReducer from './Reducers/createActivity'
 
 const persistConfig = {
@@ -15,6 +16,7 @@ const reducers = combineReducers({
     authReducer: persistReducer(persistConfig, authReducer),
     sampleReducer,
     orgActivityReducer,
+    volActivityReducer,
     activityReducer
 });
 
