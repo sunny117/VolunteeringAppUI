@@ -1,20 +1,26 @@
 import React from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback, TextInput, Text, Button, Modal, Alert, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, TextInput, Text, Button, Modal, Alert, TouchableOpacity, TouchableHighlightBase } from 'react-native';
 
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 
-import { VA_DropDown } from 'app/components/VA_DropDown'
-import { VA_Location } from 'app/components/VA_Location'
-import { VA_DatePicker } from 'app/components/VA_DatePicker';
-import * as createActivity from 'app/store/Actions/createActivity'
-import serverAddress from 'app/util/apiExports'
+import { VA_DropDown } from '../../../components/VA_DropDown'
+import { VA_Location } from '../../../components/VA_Location'
+import { VA_DatePicker } from '../../../components/VA_DatePicker';
+import * as createActivity from '../../../store/Actions/createActivity'
+import organizationApi from '../../../util/organizationApi'
+import { CurrentLocation } from '../../../util/currentLocation'
+
 import Icon from 'react-native-vector-icons/Ionicons';
 
 class Home extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.state = {
+			warning: false
+		}
+		this.locRef = React.createRef()
 	};
 
 	_setHeading = value => { this.props.activityActions.setHeading(value) }
@@ -29,17 +35,76 @@ class Home extends React.Component {
 
 	_setDescription = value => { this.props.activityActions.setDescription(value) }
 
+	_resetState = value => { this.props.activityActions.resetState() }
+
 	_handleClick = e => {
-		if (this.props.activityState.heading && this.props.activityState.type && this.props.activityState.startDate && this.props.activityState.endDate && this.props.activityState.description) {
-			Alert.alert(
-				title = "Need to call the api here everything is good"
+		if (this.props.activityState.heading
+			&& this.props.activityState.type
+			&& this.props.activityState.address
+			&& this.props.activityState.longitude
+			&& this.props.activityState.latitude
+			&& this.props.activityState.startDate
+			&& this.props.activityState.endDate) {
+
+			this.setState({
+				warning: false
+			})
+
+			organizationApi.createActivity(
+				{
+					organization: this.props.userId,
+					heading: this.props.activityState.heading,
+					type: this.props.activityState.type,
+					startDate: this.props.activityState.startDate,
+					endDate: this.props.activityState.endDate,
+					location: {
+						address: this.props.activityState.address,
+						latitude: this.props.activityState.latitude,
+						longitude: this.props.activityState.longitude
+					},
+					volunteers: [],
+					description: this.props.activityState.description
+				}
 			)
+				.then(response => {
+					this._resetState()
+					this.locRef.current.clear()
+					Alert.alert(
+						title = "Successfully created the activity!!"
+					)
+				})
+				.catch(err => {
+					console.log(err)
+					Alert.alert(
+						title = "Something went wrong.. not able to create the activity :("
+					)
+				})
 		} else {
-			Alert.alert(
-				title = "Please Fill all the * fields"
-			)
+			this.setState({
+				warning: true
+			})
 		}
 	}
+
+	getTodayDate() {
+		let date = new Date();
+		let yyyy = date.getFullYear();
+		let mm = date.getMonth() + 1; // imp to note this as it starts from 0
+		let dd = date.getDate();
+		return yyyy + '-' + mm + '-' + dd;
+	}
+
+	setCurrentLocation = (location) => {
+		this._setLocation(location.address, location.longitude, location.latitude);
+		this.locRef.current.setAddressText(location.address);
+	}
+
+	findCoordinates = () => {
+		CurrentLocation.currentLocation(this.setCurrentLocation)
+			.catch(error => {
+				console.log(error);
+			});
+	};
 
 	render() {
 		return (
@@ -48,7 +113,7 @@ class Home extends React.Component {
 					<View style={styles.inputContainer}>
 						<Text style={styles.textContainer}>Heading * </Text>
 						<TextInput
-							defaultValue={this.props.activityState.heading}
+							value={this.props.activityState.heading}
 							maxLength={64}
 							placeholder="Enter Heading"
 							placeholderTextColor="#a6a6a6"
@@ -74,13 +139,18 @@ class Home extends React.Component {
 							justifyContent: 'space-between'
 						}}>
 
-							<VA_Location/>
+							<VA_Location
+								onSelect={(address, longitude, latitude) => {
+									this._setLocation(address, longitude, latitude)
+								}}
+								childRef={this.locRef}
+							/>
 							<View style={styles.locationIcon}>
-								<TouchableOpacity>
+								<TouchableOpacity onPress={() => this.findCoordinates() }>
 									<Icon name='location-outline' size={20} color='black' />
 								</TouchableOpacity>
 							</View>
-						
+
 						</View>
 					</View>
 
@@ -91,12 +161,15 @@ class Home extends React.Component {
 								date={this.props.activityState.startDate}
 								onDateChange={value => { this._setStartDate(value) }}
 								placeholder="Start Date"
+								minDate={this.getTodayDate()}
+								maxDate={this.props.activityState.endDate ? this.props.activityState.endDate : undefined}
 							/>
 							<Text style={{ fontWeight: 'bold', fontSize: 20 }}>-</Text>
 							<VA_DatePicker
-								value={this.props.activityState.endDate}
-								onChange={value => { this._setEndDate(value) }}
+								date={this.props.activityState.endDate}
+								onDateChange={value => { this._setEndDate(value) }}
 								placeholder="End Date"
+								minDate={this.props.activityState.startDate ? this.props.activityState.startDate : this.getTodayDate()}
 							/>
 						</View>
 					</View>
@@ -104,7 +177,7 @@ class Home extends React.Component {
 					<View style={styles.inputContainer}>
 						<Text style={styles.textContainer}>Description </Text>
 						<TextInput
-							defaultValue={this.props.activityState.description}
+							value={this.props.activityState.description}
 							multiline
 							maxLength={2048}
 							placeholder="Enter Description"
@@ -113,6 +186,8 @@ class Home extends React.Component {
 							style={{ paddingBottom: 50, fontSize: 16 }}
 						/>
 					</View>
+
+					{this.state.warning ? <Text style={{ marginLeft: 14 }}>Please Fill all the * fields</Text> : null}
 
 					<View
 						style={styles.button}
@@ -176,7 +251,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
 	return {
-		activityState: state.activityReducer
+		activityState: state.activityReducer,
+		userId: state.authReducer.userId
 	};
 };
 

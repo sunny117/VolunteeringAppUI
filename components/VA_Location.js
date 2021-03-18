@@ -4,7 +4,7 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 export const VA_Location = props => {
     return (
         <GooglePlacesAutocomplete
-            // key={this.props.defaultValue}
+            ref={props.childRef}
             placeholder="Enter Location"
             minLength={2}
             autoFocus={false}
@@ -12,8 +12,7 @@ export const VA_Location = props => {
             multiline
             numberOfLines={5}
             onPress={(data, details = null) => {
-                // this.props.onSelect(data.description, details.geometry.location.lng, details.geometry.location.lat);
-                console.log(data, details)
+                this.props.onSelect(data.description, details.geometry.location.lng, details.geometry.location.lat);
             }}
             query={{
                 key: '',

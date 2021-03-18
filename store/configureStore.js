@@ -2,7 +2,7 @@ import { AsyncStorage } from 'react-native';
 import { createStore, combineReducers } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import authReducer from './Reducers/authReducer';
-import sampleReducer from './Reducers/sampleReducer';
+import searchActivity from './Reducers/searchActivity';
 import orgActivityReducer from './Reducers/orgActivityReducer';
 import volActivityReducer from './Reducers/volActivityReducer';
 import activityReducer from './Reducers/createActivity'
@@ -14,7 +14,7 @@ const persistConfig = {
 
 const reducers = combineReducers({
     authReducer: persistReducer(persistConfig, authReducer),
-    sampleReducer,
+    searchActivity,
     orgActivityReducer,
     volActivityReducer,
     activityReducer
