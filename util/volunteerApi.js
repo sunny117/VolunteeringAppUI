@@ -12,7 +12,7 @@ const VolunteerApi = {
 		})
 		.then(response => response.json())
 		.then(data => data)
-		.then(error => {
+		.catch(error => {
 			console.log(error)
 		})
 	},
