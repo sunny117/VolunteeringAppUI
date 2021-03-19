@@ -9,6 +9,7 @@ import { VA_Location } from '../../../components/VA_Location'
 import { VA_DatePicker } from '../../../components/VA_DatePicker';
 import * as searchActivity from '../../../store/Actions/searchActivity'
 import volunteerApi from '../../../util/volunteerApi'
+import { CurrentLocation } from '../../../util/currentLocation'
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -16,6 +17,7 @@ class Home extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.locRef = React.createRef()
 	};
 
 	_setType = value => { this.props.activityActions.setType(value) }
@@ -28,7 +30,7 @@ class Home extends React.Component {
 
 	_handleClick = e => {
 
-		volunteerApi.createActivity(
+		volunteerApi.searchActivity(
 			{
 				type: this.props.activityState.type,
 				startDate: this.props.activityState.startDate,
@@ -40,18 +42,37 @@ class Home extends React.Component {
 				}
 			}
 		)
-		.then(response => {
-			console.log(response)
-		})
-		.catch(err => {
-			console.log(err)
-			Alert.alert(
-				title = "Something went wrong.. not able to create the activity :("
-			)
-		})
+			.then(response => {
+				console.log(response)
+			})
+			.catch(err => {
+				console.log(err)
+				Alert.alert(
+					title = "Something went wrong.. not able to create the activity :("
+				)
+			})
 
 	}
 
+	getTodayDate() {
+		let date = new Date();
+		let yyyy = date.getFullYear();
+		let mm = date.getMonth() + 1; // imp to note this as it starts from 0
+		let dd = date.getDate();
+		return yyyy + '-' + mm + '-' + dd;
+	}
+
+	setCurrentLocation = (location) => {
+		this._setLocation(location.address, location.longitude, location.latitude);
+		this.locRef.current.setAddressText(location.address);
+	}
+
+	findCoordinates = () => {
+		CurrentLocation.currentLocation(this.setCurrentLocation)
+			.catch(error => {
+				console.log(error);
+			});
+	};
 
 	render() {
 		return (
@@ -79,9 +100,10 @@ class Home extends React.Component {
 								onSelect={(address, longitude, latitude) => {
 									this._setLocation(address, longitude, latitude)
 								}}
+								childRef={this.locRef}
 							/>
 							<View style={styles.locationIcon}>
-								<TouchableOpacity>
+								<TouchableOpacity onPress={() => this.findCoordinates() }>
 									<Icon name='location-outline' size={20} color='black' />
 								</TouchableOpacity>
 							</View>
@@ -96,12 +118,15 @@ class Home extends React.Component {
 								date={this.props.activityState.startDate}
 								onDateChange={value => { this._setStartDate(value) }}
 								placeholder="Start Date"
+								minDate={this.getTodayDate()}
+								maxDate={this.props.activityState.endDate ? this.props.activityState.endDate : undefined}
 							/>
 							<Text style={{ fontWeight: 'bold', fontSize: 20 }}>-</Text>
 							<VA_DatePicker
-								value={this.props.activityState.endDate}
-								onChange={value => { this._setEndDate(value) }}
+								date={this.props.activityState.endDate}
+								onDateChange={value => { this._setEndDate(value) }}
 								placeholder="End Date"
+								minDate={this.props.activityState.startDate ? this.props.activityState.startDate : this.getTodayDate()}
 							/>
 						</View>
 					</View>
