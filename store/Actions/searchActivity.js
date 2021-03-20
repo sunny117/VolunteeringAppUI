@@ -27,3 +27,10 @@ export function setEndDate( endDate ) {
 		endDate
 	}
 }
+
+export function addActivities( activities ){
+    return {
+        type: "ADD_ACTIVITIES",
+        activities
+    }
+}

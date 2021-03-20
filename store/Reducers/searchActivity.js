@@ -4,7 +4,8 @@ const searchActivity = (state = {
     longitude: '',
     latitude: '',
     startDate: '',
-    endDate: ''
+    endDate: '',
+    activities: []
 }, action) => {
     switch (action.type) {
 
@@ -27,6 +28,11 @@ const searchActivity = (state = {
             return {
                 ...state, endDate: action.endDate
             }
+
+        case "ADD_ACTIVITIES":
+			return {
+				...state, activities: action.activities
+			}
 
         default:
             return state
