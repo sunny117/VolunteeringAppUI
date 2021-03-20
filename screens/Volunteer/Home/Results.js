@@ -19,7 +19,7 @@ class Results extends React.Component {
 
 	renderActivity = ({ item }) => {
 		return (
-			<RenderActivity item={item} />
+			<RenderActivity item={item} joinActivity/>
 		);
 	};
 
@@ -47,7 +47,7 @@ class Results extends React.Component {
 							<FlatList
 								data={this.props.activityState.activities}
 								renderItem={this.renderActivity}
-								keyExtractor={item => item.id}
+								keyExtractor={item => item._id}
 							/>
 						</View>
 					}

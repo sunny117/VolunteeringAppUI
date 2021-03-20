@@ -17,6 +17,20 @@ const VolunteerApi = {
 		})
 	},
 
+    joinActivity( value ){
+        return fetch(`${api.serverAddress}/volunteer/join_activity`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify( value )
+        })
+        .then(response => response.json())
+        .catch(error => {
+            console.log(error)
+        })
+    },
+
     getVolunteer(email) {
         return fetch(`${api.serverAddress}/volunteer/user_details/${encodeURIComponent(email)}`)
             .then(response => {
