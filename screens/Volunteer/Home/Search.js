@@ -43,12 +43,13 @@ class Search extends React.Component {
 			}
 		)
 			.then(response => {
-				console.log(response)
+				this.props.activityActions.addActivities(response.activities)
+                this.props.navigation.navigate('Results')
 			})
 			.catch(err => {
 				console.log(err)
 				Alert.alert(
-					title = "Something went wrong.. not able to create the activity :("
+					title = "Something went wrong.. not able to retreive activities :("
 				)
 			})
 
