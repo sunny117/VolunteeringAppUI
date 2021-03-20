@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { View, Text, StyleSheet, FlatList } from 'react-native';
-import Card from '../../../components/Card';
+import RenderActivity from '../../../components/RenderActivity';
 
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
@@ -22,26 +22,7 @@ class Upcoming extends React.Component {
 
     renderActivity = ({ item }) => {
         return (
-            <Card>
-                <View style={styles.valueContainer}>
-                    <Text style={styles.valueHeader}>Description</Text>
-                    <Text style={styles.value}>{titem.description}</Text>
-                </View>
-                <View style={styles.valueContainer}>
-                    <Text style={styles.valueHeader}>Type</Text>
-                    <Text style={styles.value}>{item.type}</Text>
-                </View>
-                <View style={{ flexDirection: 'row' }}>
-                    <View style={styles.valueContainer}>
-                        <Text style={styles.valueHeader}>Start</Text>
-                        <Text style={styles.value}>{item.startDate}</Text>
-                    </View>
-                    <View style={styles.valueContainer}>
-                        <Text style={styles.valueHeader}>End</Text>
-                        <Text style={styles.value}>{item.endDate}</Text>
-                    </View>
-                </View>
-            </Card>
+            <RenderActivity item={item} />
         );
     };
 
@@ -65,18 +46,6 @@ class Upcoming extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    valueContainer: {
-        margin: 5,
-        flex: 1
-    },
-    valueHeader: {
-        color: "blue",
-        fontSize: 10,
-        fontWeight: 'bold'
-    },
-    value: {
-        fontSize: 15
-    },
 
 });
 
