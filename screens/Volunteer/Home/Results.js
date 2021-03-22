@@ -19,7 +19,7 @@ class Results extends React.Component {
 
 	renderActivity = ({ item }) => {
 		return (
-			<RenderActivity item={item} joinActivity/>
+			<RenderActivity item={item} joinActivity refreshCallback={this.refresh}/>
 		);
 	};
 
@@ -35,6 +35,32 @@ class Results extends React.Component {
 	onPressFilters = () => {
 		this.props.navigation.navigate("Search");
 	}
+
+    refresh = () => {
+
+        volunteerApi.searchActivity(
+            {
+                type: this.props.activityState.type,
+                startDate: this.props.activityState.startDate,
+                endDate: this.props.activityState.endDate,
+                location: {
+                    address: this.props.activityState.address,
+                    latitude: this.props.activityState.latitude,
+                    longitude: this.props.activityState.longitude
+                }
+            }
+        )
+            .then(response => {
+                this.props.activityActions.addActivities(response.activities)
+            })
+            .catch(err => {
+                console.log(err)
+                Alert.alert(
+                    title = "Something went wrong.. not able to retreive activities :("
+                )
+            })
+
+    }
 
 	render() {
 		return (
