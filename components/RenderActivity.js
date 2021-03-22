@@ -56,7 +56,7 @@ const RenderActivity = props => {
 					<Text style={styles.value}>{props.item.endDate}</Text>
 				</View>
 			</View>
-			{props.joinActivity && !props.item.volunteers.include(props.volunteerId) ?
+			{props.joinActivity && !props.item.volunteers.includes(props.volunteerId) ?
 				<View style={styles.valueContainer}>
 					<Button
 						title="Join Activity"
