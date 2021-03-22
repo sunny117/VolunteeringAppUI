@@ -14,7 +14,8 @@ const handleClick = props => {
 		console.log(response)
 		Alert.alert(
 			title = "You have been added to the activity successfully!!"
-		)
+		);
+        props.refreshCallback();
 	})
 	.catch(error => {
 		console.log(error)
@@ -35,9 +36,15 @@ const RenderActivity = props => {
 				<Text style={styles.valueHeader}>Description</Text>
 				<Text style={styles.value}>{props.item.description}</Text>
 			</View>
-			<View style={styles.valueContainer}>
-				<Text style={styles.valueHeader}>Type</Text>
-				<Text style={styles.value}>{props.item.type}</Text>
+            <View style={{ flexDirection: 'row' }}>
+				<View style={styles.valueContainer}>
+					<Text style={styles.valueHeader}>Type</Text>
+					<Text style={styles.value}>{props.item.type}</Text>
+				</View>
+				<View style={styles.valueContainer}>
+					<Text style={styles.valueHeader}>Volunteers Joined</Text>
+					<Text style={styles.value}>{props.item.volunteers.length}</Text>
+				</View>
 			</View>
 			<View style={{ flexDirection: 'row' }}>
 				<View style={styles.valueContainer}>
@@ -49,7 +56,7 @@ const RenderActivity = props => {
 					<Text style={styles.value}>{props.item.endDate}</Text>
 				</View>
 			</View>
-			{props.joinActivity ?
+			{props.joinActivity && !props.item.volunteers.include(props.volunteerId) ?
 				<View style={styles.valueContainer}>
 					<Button
 						title="Join Activity"
