@@ -16,7 +16,7 @@ class UserActivities extends React.Component {
         super(props);
     };
 
-    componentDidMount() {
+    fetchActivities() {
         VolunteerApi.getActivities(this.props.userId)
             .then(response => {
                 this.props.volActivityActions.setCompletedActivities(response.completedActivities);
@@ -26,6 +26,16 @@ class UserActivities extends React.Component {
                 console.log(error);
             });
     };
+
+    componentDidMount() {
+        this._unsubscribeFocus = this.props.navigation.addListener('focus',() => {
+            this.fetchActivities();
+        });
+    };
+
+    componentWillUnmount() {
+        this._unsubscribeFocus();
+    }
 
 
     render() {

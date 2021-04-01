@@ -16,7 +16,7 @@ class UserActivities extends React.Component {
         super(props);
     };
 
-    componentDidMount() {
+    fetchActivities() {
         OrganizationApi.getActivities(this.props.userId)
             .then(response => {
                 this.props.orgActivityActions.setCompletedActivities(response.completedActivities);
@@ -27,6 +27,15 @@ class UserActivities extends React.Component {
             });
     };
 
+    componentDidMount() {
+        this._unsubscribeFocus = this.props.navigation.addListener('focus',() => {
+            this.fetchActivities();
+        });
+    };
+
+    componentWillUnmount() {
+        this._unsubscribeFocus();
+    }
 
     render() {
         const Tab = createMaterialTopTabNavigator();
