@@ -63,6 +63,15 @@ class Organization extends React.Component {
             this.setState({
                 newUser: 0
             });
+            const user = result.org
+            this.props.authActions.setAuth({
+                userId: user._id,
+                userName: user.name,
+                userEmail: user.email,
+                userDescription: user.orgDescription,
+                userContactNumber: user.contactNumber,
+                userLocation: user.location
+            })
         })
     };
 
