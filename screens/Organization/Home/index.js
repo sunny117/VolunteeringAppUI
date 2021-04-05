@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback, TextInput, Text, Button, Modal, Alert, TouchableOpacity, TouchableHighlightBase } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
@@ -109,7 +110,8 @@ class Home extends React.Component {
     render() {
         return (
             <TouchableWithoutFeedback>
-                <View style={styles.mainContainer}>
+                <KeyboardAwareScrollView>
+                <View style={styles.mainContainer} onStartShouldSetResponder={() => true}>
                     <View style={styles.header}>
                         <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#2196F3' }}> Create an Activity </Text>
                     </View>
@@ -204,6 +206,7 @@ class Home extends React.Component {
                         />
                     </View>
                 </View>
+                </KeyboardAwareScrollView>
             </TouchableWithoutFeedback>
         );
     };
