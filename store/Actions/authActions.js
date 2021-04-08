@@ -7,28 +7,28 @@ export function setAuth(value){
 
 export function setUserName(value){
     return {
-        type: 'SET_USER_NAME',
+        type: 'SET_AUTH_USER_NAME',
         value
     };
 };
 
 export function setUserDescription(value){
     return {
-        type: 'SET_USER_DESCRIPTION',
+        type: 'SET_AUTH_USER_DESCRIPTION',
         value
     };
 };
 
 export function setUserContactNumber(value){
     return {
-        type: 'SET_USER_CONTACT_NUMBER',
+        type: 'SET_AUTH_USER_CONTACT_NUMBER',
         value
     };
 };
 
 export function setUserLocation(value){
     return {
-        type: 'SET_USER_LOCATION',
+        type: 'SET_AUTH_USER_LOCATION',
         value
     };
 };

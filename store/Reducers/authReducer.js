@@ -18,22 +18,22 @@ const authReducer = (state = {
                 ...state,
                 ...action.value
             };
-        case 'SET_USER_NAME':
+        case 'SET_AUTH_USER_NAME':
             return {
                 ...state,
                 userName: action.value
             };        
-        case 'SET_USER_DESCRIPTION':
+        case 'SET_AUTH_USER_DESCRIPTION':
             return {
                 ...state,
                 userDescription: action.value
             };
-        case 'SET_USER_CONTACT_NUMBER':
+        case 'SET_AUTH_USER_CONTACT_NUMBER':
             return {
                 ...state,
                 userContactNumber: action.value
             };
-        case 'SET_USER_LOCATION':
+        case 'SET_AUTH_USER_LOCATION':
             return {
                 ...state,
                 userLocation: action.value

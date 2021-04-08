@@ -9,27 +9,27 @@ const searchActivity = (state = {
 }, action) => {
     switch (action.type) {
 
-        case "SET_TYPE":
+        case "SET_SEARCH_TYPE":
             return {
                 ...state, type: action.value
             }
 
-        case "SET_LOCATION":
+        case "SET_SEARCH_LOCATION":
             return {
                 ...state, address: action.address, longitude: action.longitude, latitude: action.latitude
             }
 
-        case "SET_START_DATE":
+        case "SET_SEARCH_START_DATE":
             return {
                 ...state, startDate: action.startDate
             }
 
-        case "SET_END_DATE":
+        case "SET_SEARCH_END_DATE":
             return {
                 ...state, endDate: action.endDate
             }
 
-        case "ADD_ACTIVITIES":
+        case "ADD_SEARCH_ACTIVITIES":
 			return {
 				...state, activities: action.activities
 			}
