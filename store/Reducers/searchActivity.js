@@ -5,7 +5,8 @@ const searchActivity = (state = {
     latitude: '',
     startDate: '',
     endDate: '',
-    activities: []
+    activities: [],
+    slots: []
 }, action) => {
     switch (action.type) {
 
@@ -34,6 +35,10 @@ const searchActivity = (state = {
 				...state, activities: action.activities
 			}
 
+        case "SET_JOINED_SLOTS":
+            return {
+                ...state, slots: action.slots
+            }
         default:
             return state
     }

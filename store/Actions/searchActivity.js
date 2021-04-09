@@ -34,3 +34,10 @@ export function addActivities( activities ){
         activities
     }
 }
+
+export function setJoinedSlots( slots ) {
+    return {
+        type: "SET_JOINED_SLOTS",
+        slots
+    }
+}

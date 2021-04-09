@@ -35,6 +35,13 @@ export function setEndDate( endDate ) {
 	}
 }
 
+export function setSlots( slots ){
+    return {
+        type: 'SET_CREATE_SLOTS',
+        slots
+    }
+}
+
 export function setDescription( description ) {
 	return {
 		type: 'SET_CREATE_DESCRIPTION',

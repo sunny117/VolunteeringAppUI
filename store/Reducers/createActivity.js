@@ -7,6 +7,7 @@ const activityReducer = (
         latitude: '',
         startDate: '',
         endDate: '',
+        slots: [],
         description: ''
     },
     action
@@ -35,6 +36,11 @@ const activityReducer = (
         case "SET_CREATE_END_DATE":
             return {
                 ...state, endDate: action.endDate
+            }
+
+        case "SET_CREATE_SLOTS":
+            return {
+                ...state, slots: action.slots
             }
 
         case "SET_CREATE_DESCRIPTION":
