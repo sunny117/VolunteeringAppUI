@@ -7,7 +7,43 @@ const activityReducer = (
         latitude: '',
         startDate: '',
         endDate: '',
-        slots: [],
+        slots: [
+            {
+                name: "Sunday",
+                isAvailable: false,
+                values: []
+            },
+            {
+                name: "Monday",
+                isAvailable: false,
+                values: []
+            },
+            {
+                name: "Tuesday",
+                isAvailable: false,
+                values: []
+            },
+            {
+                name: "Wednesday",
+                isAvailable: false,
+                values: []
+            },
+            {
+                name: "Thursday",
+                isAvailable: false,
+                values: []
+            },
+            {
+                name: "Friday",
+                isAvailable: false,
+                values: []
+            },
+            {
+                name: "Saturday",
+                isAvailable: false,
+                values: []
+            }
+        ],
         description: ''
     },
     action
@@ -36,6 +72,16 @@ const activityReducer = (
         case "SET_CREATE_END_DATE":
             return {
                 ...state, endDate: action.endDate
+            }
+
+        case "SET_CREATE_SLOT":
+            let temp = state.slots
+            temp.forEach(element => {
+                element.name == action.filter ?
+                element.values.push(action.payload) : null
+            })
+            return {
+                ...state, slots: temp
             }
 
         case "SET_CREATE_SLOTS":

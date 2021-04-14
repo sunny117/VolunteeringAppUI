@@ -35,6 +35,14 @@ export function setEndDate( endDate ) {
 	}
 }
 
+export function setSlot( day, slot ) {
+    return {
+        type: 'SET_CREATE_SLOT',
+        filter: day,
+        payload: slot
+    }
+}
+
 export function setSlots( slots ){
     return {
         type: 'SET_CREATE_SLOTS',
