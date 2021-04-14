@@ -5,6 +5,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview'
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import { VA_DatePicker } from '../../../components/VA_DatePicker';
+import { VA_Button } from '../../../components/VA_Button'
 import RenderSlots from '../../../components/VA_RenderSlots';
 import * as createActivity from '../../../store/Actions/createActivity';
 import organizationApi from '../../../util/organizationApi';
@@ -85,14 +86,12 @@ class SlotsScreen extends React.Component {
             <TouchableWithoutFeedback>
                 <KeyboardAwareScrollView>
                     <View style={styles.mainContainer} onStartShouldSetResponder={() => true}>
-                        <View style={styles.header}>
-                            <Button
-                                title="Back"
-                                onPress={e => {
-                                    this.props.navigation.navigate("Main")
-                                }}
-                            />
-                        </View>
+                        <VA_Button
+                            title="back"
+                            onPress={() => this.props.navigation.navigate("Main")}
+                            buttonStyle={{alignSelf: "flex-start", marginLeft: 10}}
+                            textStyle={{fontSize: 16, fontWeight: "600"}}
+                        />
                         <View style={styles.inputContainer}>
                             <Text style={styles.textContainer}>Duration * </Text>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -113,20 +112,11 @@ class SlotsScreen extends React.Component {
                             </View>
                         </View>
 
-                        <View style={{...styles.inputContainer, marginTop: 24}}>
+                        <View style={{ ...styles.inputContainer, marginTop: 24 }}>
                             <RenderSlots />
                         </View>
-                        
-                        <View
-                            style={styles.button}
-                        >
-                            <Button
-                                title="Confirm"
-                                onPress={e => {
-                                    this._handleClick()
-                                }}
-                            />
-                        </View>
+
+                        <VA_Button title="Confirm" buttonStyle={styles.button} onPress={() => this._handleClick()} />
                     </View>
                 </KeyboardAwareScrollView>
             </TouchableWithoutFeedback>
