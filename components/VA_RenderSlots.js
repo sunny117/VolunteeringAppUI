@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button, Alert, TouchableOpacity, Modal, TextInput, Keyboard } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput } from 'react-native';
 
-import Card from './Card'
+import { VA_Button } from '../components/VA_Button'
 import { connect } from "react-redux";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { bindActionCreators } from 'redux';
@@ -94,19 +94,16 @@ class RenderSlots extends React.Component {
                                             style={styles.inputContainer}
                                         />
                                     </View>
-                                    <View style={{...styles.durationContainer, justifyContent:'space-between', marginTop: 40}}>
-                                        <Button
+                                    <View style={{ ...styles.durationContainer, justifyContent: 'space-between', marginTop: 40 }}>
+                                        <VA_Button
                                             title="Cancel"
-                                            onPress={() => {
-                                                this.setState({modalVisible: false})
-                                            }}
+                                            onPress={() => this.setState({ modalVisible: false })}
+                                            textStyle={{ fontSize: 16, fontWeight: "700" }}
                                         />
-                                        <Button
+                                        <VA_Button
                                             title="Ok"
-                                            onPress={() => {
-                                                Keyboard.dismiss()
-                                                this.setState({modalVisible: false})
-                                            }}
+                                            onPress={() => this.setState({ modalVisible: false })}
+                                            textStyle={{ fontSize: 16, fontWeight: "700" }}
                                         />
                                     </View>
                                 </View>
@@ -148,28 +145,21 @@ const styles = StyleSheet.create({
     modalContainer: {
         flex: 1,
         backgroundColor: "#0000001A",
-        justifyContent:'center'
+        justifyContent: 'center'
     },
 
     modalView: {
         margin: 20,
+        marginHorizontal: 40,
+        paddingHorizontal:30,
+        paddingVertical:30,
         backgroundColor: "white",
         borderRadius: 10,
-        paddingTop: 30,
-        paddingBottom: 30,
-        padding: 70,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.26,
-        shadowRadius: 4,
-        elevation: 4,
     },
 
     durationContainer: {
         flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'baseline',
     },
 
