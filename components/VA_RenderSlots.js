@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, TouchableWithoutFeedback, Alert } from 'react-native';
 
 import { VA_Button } from '../components/VA_Button'
 import { connect } from "react-redux";
@@ -7,116 +7,165 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { bindActionCreators } from 'redux';
 import * as createActivity from '../store/Actions/createActivity'
 
+
+const listTimings = slots => {
+    let cnt = 0;
+    return (
+        slots.map(item => {
+            return (
+                <View style={{ flexDirection: "row" }} key={cnt++}>
+                    <Text style= {styles.textStyle}>{item.start}</Text>
+                    <Text style= {styles.textStyle}> - </Text>
+                    <Text style= {styles.textStyle}>{item.end}</Text>
+                </View>
+            )
+        })
+    )
+}
+
 class RenderSlots extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            modalVisible: false,
-            startHour: 0,
-            startMinute: 0,
-            endHour: 0,
-            endMinute: 0
+            startHour: "",
+            startMinute: "",
+            endHour: "",
+            endMinute: ""
         }
+    }
+
+    _addSlot = (day, payload) => { this.props.activityActions.setSlot(day, payload) }
+    _setVisible = (day, payload) => { this.props.activityActions.setSlotVisibility(day, payload) }
+    _resetState = () => {
+        this.setState({
+            startHour: "",
+            startMinute: "",
+            endHour: "",
+            endMinute: ""
+        })
     }
 
     render() {
         return (
             this.props.activityState.slots.map(item => {
                 return (
-                    <View style={item.name == "Saturday" ? styles.cardContainerBottom : styles.cardContainer} key={item.name}>
-                        <Modal
-                            animationType='none'
-                            visible={this.state.modalVisible}
-                            transparent={true}
-                            onRequestClose={() => this.setState({ modalVisible: false })}
-                        >
-                            <View style={styles.modalContainer}>
-                                <View style={styles.modalView}>
-                                    <View style={styles.durationContainer}>
-                                        <Text style={styles.textContainer}>From </Text>
-                                        <TextInput
-                                            value={this.state.startHour}
-                                            keyboardType='number-pad'
-                                            placeholder="hh"
-                                            onChange={({ nativeEvent }) => {
-                                                let text = nativeEvent.text
-                                                if (text <= 23 && text >= 0) {
-                                                    this.setState({ startHour: text })
-                                                }
-                                            }}
-                                            maxLength={2}
-                                            style={styles.inputContainer}
-                                        />
-                                        <Text style={styles.textContainer}>:</Text>
-                                        <TextInput
-                                            value={this.state.startMinute}
-                                            keyboardType='number-pad'
-                                            placeholder="mm"
-                                            onChange={({ nativeEvent }) => {
-                                                let text = nativeEvent.text
-                                                if (text <= 59 && text >= 0) {
-                                                    this.setState({ startMinute: text })
-                                                }
-                                            }}
-                                            maxLength={2}
-                                            style={styles.inputContainer}
-                                        />
-                                    </View>
+                    <View style={item.isAvailable ? null : { opacity: 0.4, backgroundColor: '#B5B6B9' }} key={item.name}>
+                        <View style={item.name == "Saturday" ? styles.cardContainerBottom : styles.cardContainer} >
+                            <Modal
+                                animationType='none'
+                                visible={item.isVisible}
+                                transparent={true}
+                                onRequestClose={() => this.setState({ modalVisible: false })}
+                            >
+                                <View style={styles.modalContainer}>
+                                    <View style={styles.modalView}>
+                                        <View style={styles.durationContainer}>
+                                            <Text style={styles.textContainer}>From </Text>
+                                            <TextInput
+                                                value={this.state.startHour}
+                                                keyboardType='number-pad'
+                                                placeholder="hh"
+                                                onChange={({ nativeEvent }) => {
+                                                    let text = nativeEvent.text
+                                                    if (text <= 23 && text >= 0) {
+                                                        this.setState({ startHour: text })
+                                                    }
+                                                }}
+                                                maxLength={2}
+                                                style={styles.inputContainer}
+                                            />
+                                            <Text style={styles.textContainer}>:</Text>
+                                            <TextInput
+                                                value={this.state.startMinute}
+                                                keyboardType='number-pad'
+                                                placeholder="mm"
+                                                onChange={({ nativeEvent }) => {
+                                                    let text = nativeEvent.text
+                                                    if (text <= 59 && text >= 0) {
+                                                        this.setState({ startMinute: text })
+                                                    }
+                                                }}
+                                                maxLength={2}
+                                                style={styles.inputContainer}
+                                            />
+                                        </View>
 
-                                    <View style={styles.durationContainer}>
-                                        <Text style={styles.textContainer}>To </Text>
-                                        <TextInput
-                                            value={this.state.endHour}
-                                            keyboardType='number-pad'
-                                            placeholder="hh"
-                                            onChange={({ nativeEvent }) => {
-                                                let text = nativeEvent.text
-                                                if (text <= 23 && text >= 0) {
-                                                    this.setState({ endHour: text })
-                                                }
-                                            }}
-                                            maxLength={2}
-                                            style={styles.inputContainer}
-                                        />
-                                        <Text style={styles.textContainer}>:</Text>
-                                        <TextInput
-                                            value={this.state.endMinute}
-                                            keyboardType='number-pad'
-                                            placeholder="mm"
-                                            onChange={({ nativeEvent }) => {
-                                                let text = nativeEvent.text
-                                                if (text <= 59 && text >= 0) {
-                                                    this.setState({ endMinute: text })
-                                                }
-                                            }}
-                                            maxLength={2}
-                                            style={styles.inputContainer}
-                                        />
-                                    </View>
-                                    <View style={{ ...styles.durationContainer, justifyContent: 'space-between', marginTop: 40 }}>
-                                        <VA_Button
-                                            title="Cancel"
-                                            onPress={() => this.setState({ modalVisible: false })}
-                                            textStyle={{ fontSize: 16, fontWeight: "700" }}
-                                        />
-                                        <VA_Button
-                                            title="Ok"
-                                            onPress={() => this.setState({ modalVisible: false })}
-                                            textStyle={{ fontSize: 16, fontWeight: "700" }}
-                                        />
+                                        <View style={styles.durationContainer}>
+                                            <Text style={styles.textContainer}>To </Text>
+                                            <TextInput
+                                                value={this.state.endHour}
+                                                keyboardType='number-pad'
+                                                placeholder="hh"
+                                                onChange={({ nativeEvent }) => {
+                                                    let text = nativeEvent.text
+                                                    if (text <= 23 && text >= 0) {
+                                                        this.setState({ endHour: text })
+                                                    }
+                                                }}
+                                                maxLength={2}
+                                                style={styles.inputContainer}
+                                            />
+                                            <Text style={styles.textContainer}>:</Text>
+                                            <TextInput
+                                                value={this.state.endMinute}
+                                                keyboardType='number-pad'
+                                                placeholder="mm"
+                                                onChange={({ nativeEvent }) => {
+                                                    let text = nativeEvent.text
+                                                    if (text <= 59 && text >= 0) {
+                                                        this.setState({ endMinute: text })
+                                                    }
+                                                }}
+                                                maxLength={2}
+                                                style={styles.inputContainer}
+                                            />
+                                        </View>
+                                        <View style={{ ...styles.durationContainer, justifyContent: 'space-between', marginTop: 40 }}>
+                                            <VA_Button
+                                                title="Cancel"
+                                                onPress={() => {
+                                                    this._resetState();
+                                                    this._setVisible(item.name, false)
+                                                }}
+                                                textStyle={{ fontSize: 16, fontWeight: "700" }}
+                                            />
+                                            <VA_Button
+                                                title="Ok"
+                                                onPress={() => {
+                                                    this._resetState();
+                                                    if (this.state.startHour && this.state.endHour && this.state.startMinute && this.state.endMinute) {
+                                                        this._addSlot(item.name, {
+                                                            start: this.state.startHour + ":" + this.state.startMinute,
+                                                            end: this.state.endHour + ":" + this.state.endMinute
+                                                        })
+                                                    } else Alert.alert(title = "all not provided!!")
+
+                                                    this._setVisible(item.name, false)
+                                                }}
+                                                textStyle={{ fontSize: 16, fontWeight: "700" }}
+                                            />
+                                        </View>
                                     </View>
                                 </View>
+
+                            </Modal>
+                            {item.isAvailable ?
+                                <TouchableOpacity onPress={() => { this._setVisible(item.name, true) }}>
+                                    <Icon name="add-circle" size={40} color="#1a75ff" />
+                                </TouchableOpacity> :
+                                <TouchableWithoutFeedback>
+                                    <Icon name="add-circle" size={40} color="#1a75ff" />
+                                </TouchableWithoutFeedback>
+                            }
+
+
+                            <Text style={{ fontSize: 16, fontWeight: 'bold', paddingLeft: 40, paddingTop: 12 }}>{item.name}</Text>
+
+                            <View style={styles.timingsView}>
+                                {listTimings(item.values)}
                             </View>
-
-                        </Modal>
-                        <TouchableOpacity onPress={() => {
-                            this.setState({ modalVisible: true })
-                        }}>
-                            <Icon name="add-circle" size={40} color="#1a75ff" />
-                        </TouchableOpacity>
-
-                        <Text style={{ fontSize: 16, fontWeight: 'bold', paddingLeft: 40 }}>{item.name}</Text>
+                        </View>
                     </View>
                 )
             })
@@ -129,8 +178,9 @@ const styles = StyleSheet.create({
     cardContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         padding: 16,
+        paddingHorizontal: 26,
         borderBottomWidth: 1,
         borderColor: '#D2CECD'
     },
@@ -138,21 +188,22 @@ const styles = StyleSheet.create({
     cardContainerBottom: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        alignItems: 'center',
+        alignItems: 'flex-start',
+        paddingHorizontal: 26,
         padding: 16,
     },
 
     modalContainer: {
         flex: 1,
-        backgroundColor: "#0000001A",
+        backgroundColor: "#00000033",
         justifyContent: 'center'
     },
 
     modalView: {
         margin: 20,
         marginHorizontal: 40,
-        paddingHorizontal:30,
-        paddingVertical:30,
+        paddingHorizontal: 30,
+        paddingVertical: 30,
         backgroundColor: "white",
         borderRadius: 10,
     },
@@ -182,6 +233,16 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         padding: 5,
     },
+
+    timingsView: {
+        paddingLeft: 100,
+        paddingTop: 10,
+    },
+
+    textStyle: {
+        fontSize: 16,
+        fontWeight: '600'
+    }
 
 });
 
