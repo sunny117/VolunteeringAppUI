@@ -10,36 +10,43 @@ const activityReducer = (
         slots: [
             {
                 name: "Sunday",
+                isVisible: false,
                 isAvailable: false,
                 values: []
             },
             {
                 name: "Monday",
+                isVisible: false,
                 isAvailable: false,
                 values: []
             },
             {
                 name: "Tuesday",
+                isVisible: false,
                 isAvailable: false,
                 values: []
             },
             {
                 name: "Wednesday",
+                isVisible: false,
                 isAvailable: false,
                 values: []
             },
             {
                 name: "Thursday",
+                isVisible: false,
                 isAvailable: false,
                 values: []
             },
             {
                 name: "Friday",
+                isVisible: false,
                 isAvailable: false,
                 values: []
             },
             {
                 name: "Saturday",
+                isVisible: false,
                 isAvailable: false,
                 values: []
             }
@@ -74,11 +81,26 @@ const activityReducer = (
                 ...state, endDate: action.endDate
             }
 
-        case "SET_CREATE_SLOT":
+        case "SET_CREATE_VISIBLE":
             let temp = state.slots
             temp.forEach(element => {
-                element.name == action.filter ?
-                element.values.push(action.payload) : null
+                element.name == action.filter ? element.isVisible = action.payload : null
+            })
+            return {
+                ...state, slots: temp
+            }
+
+        case "SET_CREATE_AVAILABLE":
+            temp = state.slots
+            temp[action.filter].isAvailable = action.payload
+            return {
+                ...state, slots: temp
+            }
+
+        case "SET_CREATE_SLOT":
+            temp = state.slots
+            temp.forEach(element => {
+                element.name == action.filter ? element.values.push(action.payload) : null
             })
             return {
                 ...state, slots: temp

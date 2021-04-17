@@ -35,10 +35,26 @@ export function setEndDate( endDate ) {
 	}
 }
 
-export function setSlot( day, slot ) {
+export function setSlotVisibility( id, isVisible ){
+    return {
+        type: 'SET_CREATE_VISIBLE',
+        filter: id,
+        payload: isVisible
+    }
+}
+
+export function setSlotAvailability( id, isAvailable ){
+    return {
+        type: 'SET_CREATE_AVAILABLE',
+        filter: id,
+        payload: isAvailable
+    }
+}
+
+export function setSlot( id, slot ) {
     return {
         type: 'SET_CREATE_SLOT',
-        filter: day,
+        filter: id,
         payload: slot
     }
 }
