@@ -8,13 +8,10 @@ const OrganizationApi = {
             headers: { 
                 'Content-Type': 'application/json'
              },
-            body: JSON.stringify(activity)
+            body: activity
         })
         .then(response => response.json())
         .then(data => data)
-        .then(error => {
-            console.log(error)
-        })
     },
 
     getOrganization(email) {
