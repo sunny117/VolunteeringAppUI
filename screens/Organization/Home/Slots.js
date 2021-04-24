@@ -38,10 +38,9 @@ class SlotsScreen extends React.Component {
     _resetState = value => { this.props.activityActions.resetState() }
 
     _handleClick = e => {
-        console.log("kk")
         if (this.props.activityState.startDate
             && this.props.activityState.endDate
-            // && this._checkSlots()
+            && this._checkSlots()
         ) {
             let slotValues = this.props.activityState.slots.map(element => element.values)
             this.setState({
@@ -66,6 +65,7 @@ class SlotsScreen extends React.Component {
                 }
             )
                 .then(response => {
+                    console.log(response)
                     this._resetState()
                     Alert.alert(
                         title = "Successfully created the activity!!"
@@ -136,7 +136,7 @@ class SlotsScreen extends React.Component {
                         </View>
 
 
-                        {this.state.warning ? <Text style={{ marginLeft: 14 }}>Please Fill all the * fields</Text> : null}
+                        {this.state.warning ? <Text style={{ marginLeft: 14 }}>Please all Duration fields and atleast one slot</Text> : null}
                         <VA_Button title="Confirm" buttonStyle={styles.button} onPress={() => this._handleClick()} />
                     </View>
                 </KeyboardAwareScrollView>
