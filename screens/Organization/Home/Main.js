@@ -31,8 +31,6 @@ class MainScreen extends React.Component {
 
     _setDescription = value => { this.props.activityActions.setDescription(value) }
 
-    _resetState = value => { this.props.activityActions.resetState() }
-
     _handleClick = e => {
         if (
             this.props.activityState.heading
@@ -44,7 +42,7 @@ class MainScreen extends React.Component {
             this.setState({
                 warning: false
             })
-            this.props.navigation.push("Slots")
+            this.props.navigation.navigate("Slots")
         } else {
             this.setState({
                 warning: true
@@ -63,6 +61,18 @@ class MainScreen extends React.Component {
                 console.log(error);
             });
     };
+
+    componentDidMount() {
+        this._unsubscribeFocus = this.props.navigation.addListener('focus',() => {
+            if(this.props.route.params){
+                this.props.route.params.clearLocation ? this.locRef.current.clear() : null;
+            }
+        });
+    };
+
+    componentWillUnmount() {
+        this._unsubscribeFocus();
+    }
 
     render() {
         return (

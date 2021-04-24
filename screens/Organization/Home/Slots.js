@@ -35,51 +35,54 @@ class SlotsScreen extends React.Component {
         return returnValue;
     }
 
+    _resetState = value => { this.props.activityActions.resetState() }
+
     _handleClick = e => {
-        console.log("API call for creating activity", this.props.activityState.slots)
-        // if (this.props.activityState.startDate
-        //     && this.props.activityState.endDate
-        //     && _checkSlots()
-        // ) {
+        console.log("kk")
+        if (this.props.activityState.startDate
+            && this.props.activityState.endDate
+            // && this._checkSlots()
+        ) {
+            let slotValues = this.props.activityState.slots.map(element => element.values)
+            this.setState({
+                warning: false
+            })
 
-        //     this.setState({
-        //         warning: false
-        //     })
-
-        //     organizationApi.createActivity(
-        //         {
-        //             organization: this.props.userId,
-        //             heading: this.props.activityState.heading,
-        //             type: this.props.activityState.type,
-        //             startDate: this.props.activityState.startDate,
-        //             endDate: this.props.activityState.endDate,
-        //             location: {
-        //                 address: this.props.activityState.address,
-        //                 latitude: this.props.activityState.latitude,
-        //                 longitude: this.props.activityState.longitude
-        //             },
-        //             volunteers: [],
-        //             description: this.props.activityState.description
-        //         }
-        //     )
-        //         .then(response => {
-        //             this._resetState()
-        //             this.locRef.current.clear()
-        //             Alert.alert(
-        //                 title = "Successfully created the activity!!"
-        //             )
-        //         })
-        //         .catch(err => {
-        //             console.log(err)
-        //             Alert.alert(
-        //                 title = "Something went wrong.. not able to create the activity :("
-        //             )
-        //         })
-        // } else {
-        //     this.setState({
-        //         warning: true
-        //     })
-        // }
+            organizationApi.createActivity(
+                {
+                    organization: this.props.userId,
+                    heading: this.props.activityState.heading,
+                    type: this.props.activityState.type,
+                    startDate: this.props.activityState.startDate,
+                    endDate: this.props.activityState.endDate,
+                    location: {
+                        address: this.props.activityState.address,
+                        latitude: this.props.activityState.latitude,
+                        longitude: this.props.activityState.longitude
+                    },
+                    slots: slotValues,
+                    volunteers: [],
+                    description: this.props.activityState.description
+                }
+            )
+                .then(response => {
+                    this._resetState()
+                    Alert.alert(
+                        title = "Successfully created the activity!!"
+                    )
+                    this.props.navigation.navigate("Main", { clearLocation: true })
+                })
+                .catch(err => {
+                    console.log(err)
+                    Alert.alert(
+                        title = "Something went wrong.. not able to create the activity :("
+                    )
+                })
+        } else {
+            this.setState({
+                warning: true
+            })
+        }
     }
 
     render() {
@@ -132,6 +135,8 @@ class SlotsScreen extends React.Component {
                             <RenderSlots />
                         </View>
 
+
+                        {this.state.warning ? <Text style={{ marginLeft: 14 }}>Please Fill all the * fields</Text> : null}
                         <VA_Button title="Confirm" buttonStyle={styles.button} onPress={() => this._handleClick()} />
                     </View>
                 </KeyboardAwareScrollView>
@@ -185,7 +190,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        activityState: state.activityReducer
+        activityState: state.activityReducer,
+        userId: state.authReducer.userId
     };
 };
 
