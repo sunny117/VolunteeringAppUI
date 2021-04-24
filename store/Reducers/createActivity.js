@@ -2,9 +2,9 @@ const activityReducer = (
     state = {
         heading: '',
         type: '',
-        address: '',
-        longitude: '',
-        latitude: '',
+        address: 'xyz',
+        longitude: '10',
+        latitude: '10',
         startDate: '',
         endDate: '',
         slots: [
@@ -120,11 +120,55 @@ const activityReducer = (
             return {
                 heading: '',
                 type: '',
-                address: '',
-                longitude: '',
-                latitude: '',
+                address: 'xyz',
+                longitude: '10',
+                latitude: '10',
                 startDate: '',
                 endDate: '',
+                slots: [
+                    {
+                        name: "Sunday",
+                        isVisible: false,
+                        isAvailable: false,
+                        values: []
+                    },
+                    {
+                        name: "Monday",
+                        isVisible: false,
+                        isAvailable: false,
+                        values: []
+                    },
+                    {
+                        name: "Tuesday",
+                        isVisible: false,
+                        isAvailable: false,
+                        values: []
+                    },
+                    {
+                        name: "Wednesday",
+                        isVisible: false,
+                        isAvailable: false,
+                        values: []
+                    },
+                    {
+                        name: "Thursday",
+                        isVisible: false,
+                        isAvailable: false,
+                        values: []
+                    },
+                    {
+                        name: "Friday",
+                        isVisible: false,
+                        isAvailable: false,
+                        values: []
+                    },
+                    {
+                        name: "Saturday",
+                        isVisible: false,
+                        isAvailable: false,
+                        values: []
+                    }
+                ],
                 description: ''
             }
 
