@@ -8,7 +8,7 @@ const OrganizationApi = {
             headers: { 
                 'Content-Type': 'application/json'
              },
-            body: activity
+            body: JSON.stringify(activity)
         })
         .then(response => response.json())
         .then(data => data)
