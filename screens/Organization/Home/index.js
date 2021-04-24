@@ -7,7 +7,7 @@ class Home extends React.Component {
     render() {
         const Stack = createStackNavigator();
         return (
-            <Stack.Navigator initialRouteName="Slots" headerMode="none">
+            <Stack.Navigator initialRouteName="Main" headerMode="none">
                 <Stack.Screen name="Main" component={Main} />
                 <Stack.Screen name="Slots" component={Slots} />
             </Stack.Navigator>
