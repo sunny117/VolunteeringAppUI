@@ -47,6 +47,15 @@ const OrganizationApi = {
             }).then(jsonResponse => {
                 return jsonResponse;
             }).catch(error => console.log(error));
+    },
+
+    getVolunteers(activityId) {
+        return fetch(`${api.serverAddress}/organization/olunteers/${activityId}`)
+            .then(response => {
+                return response.json();
+            }).then(jsonResponse => {
+                return jsonResponse;
+            }).catch(error => console.log(error));
     }
 
 };

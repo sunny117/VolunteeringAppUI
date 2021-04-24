@@ -5,7 +5,7 @@ import {
 	FlatList, TouchableOpacity
 } from 'react-native';
 
-import RenderActivity from '../../../components/RenderActivity';
+import RenderActivity from './RenderActivity';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as searchActivity from '../../../store/Actions/searchActivity'
 import volunteerApi from '../../../util/volunteerApi'
@@ -20,7 +20,7 @@ class Results extends React.Component {
 
 	renderActivity = ({ item }) => {
 		return (
-			<RenderActivity item={item} joinActivity refreshCallback={this.refresh}/>
+			<RenderActivity item={item} refreshCallback={this.refresh}/>
 		);
 	};
 
