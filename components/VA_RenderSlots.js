@@ -14,9 +14,9 @@ const listTimings = slots => {
         slots.map(item => {
             return (
                 <View style={{ flexDirection: "row" }} key={cnt++}>
-                    <Text style= {styles.textStyle}>{item.start}</Text>
-                    <Text style= {styles.textStyle}> - </Text>
-                    <Text style= {styles.textStyle}>{item.end}</Text>
+                    <Text style={styles.textStyle}>{item.start}</Text>
+                    <Text style={styles.textStyle}> - </Text>
+                    <Text style={styles.textStyle}>{item.end}</Text>
                 </View>
             )
         })
@@ -68,8 +68,11 @@ class RenderSlots extends React.Component {
                                                 placeholder="hh"
                                                 onChange={({ nativeEvent }) => {
                                                     let text = nativeEvent.text
-                                                    if (text <= 23 && text >= 0) {
-                                                        this.setState({ startHour: text })
+                                                    let size = text.length;
+                                                    if (text.charAt(size - 1) <= 9 && text.charAt(size - 1) >= 0) {
+                                                        if (text <= 23 && text >= 0) {
+                                                            this.setState({ startHour: text })
+                                                        }
                                                     }
                                                 }}
                                                 maxLength={2}
@@ -82,8 +85,11 @@ class RenderSlots extends React.Component {
                                                 placeholder="mm"
                                                 onChange={({ nativeEvent }) => {
                                                     let text = nativeEvent.text
-                                                    if (text <= 59 && text >= 0) {
-                                                        this.setState({ startMinute: text })
+                                                    let size = text.length;
+                                                    if (text.charAt(size - 1) <= 9 && text.charAt(size - 1) >= 0) {
+                                                        if (text <= 59 && text >= 0) {
+                                                            this.setState({ startHour: text })
+                                                        }
                                                     }
                                                 }}
                                                 maxLength={2}
@@ -99,8 +105,11 @@ class RenderSlots extends React.Component {
                                                 placeholder="hh"
                                                 onChange={({ nativeEvent }) => {
                                                     let text = nativeEvent.text
-                                                    if (text <= 23 && text >= 0) {
-                                                        this.setState({ endHour: text })
+                                                    let size = text.length;
+                                                    if (text.charAt(size - 1) <= 9 && text.charAt(size - 1) >= 0) {
+                                                        if (text <= 23 && text >= 0) {
+                                                            this.setState({ startHour: text })
+                                                        }
                                                     }
                                                 }}
                                                 maxLength={2}
@@ -113,8 +122,11 @@ class RenderSlots extends React.Component {
                                                 placeholder="mm"
                                                 onChange={({ nativeEvent }) => {
                                                     let text = nativeEvent.text
-                                                    if (text <= 59 && text >= 0) {
-                                                        this.setState({ endMinute: text })
+                                                    let size = text.length;
+                                                    if (text.charAt(size - 1) <= 9 && text.charAt(size - 1) >= 0) {
+                                                        if (text <= 59 && text >= 0) {
+                                                            this.setState({ startHour: text })
+                                                        }
                                                     }
                                                 }}
                                                 maxLength={2}
