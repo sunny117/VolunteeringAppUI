@@ -60,8 +60,9 @@ class RenderActivity extends React.Component {
         volunteerApi.joinActivity({
             volunteerId: this.props.volunteerId,
             activityId: this.props.item._id,
-            slots
+            slotSelected: slots
         }).then(response => {
+            this.props.refreshCallback();
             console.log("You have been added to the activity successfully!!");
         }).catch(error => {
             console.log("Something went wrong.. not able to join the activity :(");
