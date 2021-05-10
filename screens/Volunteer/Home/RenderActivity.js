@@ -47,20 +47,25 @@ class RenderActivity extends React.Component {
     }
 
     handleClick() {
+        let slots = [];
+        this.state.slotsAvailable.forEach(value0 => {
+            let slot = [];
+            value0.forEach(value1 => {
+                if (value1.selected)
+                    slot.push({ "start": value1.start, "end": value1.end });
+            })
+            slots.push(slot);
+        });
+        
         volunteerApi.joinActivity({
             volunteerId: this.props.volunteerId,
-            activityId: this.props.item._id
+            activityId: this.props.item._id,
+            slots
         }).then(response => {
-            Alert.alert(
-                title = "You have been added to the activity successfully!!"
-            );
-            this.props.refreshCallback();
+            console.log("You have been added to the activity successfully!!");
+        }).catch(error => {
+            console.log("Something went wrong.. not able to join the activity :(");
         })
-            .catch(error => {
-                Alert.alert(
-                    title = "Something went wrong.. not able to join the activity :("
-                )
-            })
     }
 
     slotSelection(index, index1) {
@@ -211,7 +216,7 @@ class RenderActivity extends React.Component {
                             </View>
                             <View>
 
-                                {this.props.item.volunteers.includes(this.props.volunteerId) && this.state.showJoin ?
+                                {!this.props.item.volunteers.includes(this.props.volunteerId) && this.state.showJoin ?
                                     <View style={styles.valueContainer}>
                                         <Button
                                             title="Join Activity"
