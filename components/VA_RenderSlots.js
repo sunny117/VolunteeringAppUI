@@ -88,7 +88,7 @@ class RenderSlots extends React.Component {
                                                     let size = text.length;
                                                     if (text.charAt(size - 1) <= 9 && text.charAt(size - 1) >= 0) {
                                                         if (text <= 59 && text >= 0) {
-                                                            this.setState({ startHour: text })
+                                                            this.setState({ startMinute: text })
                                                         }
                                                     }
                                                 }}
@@ -108,7 +108,7 @@ class RenderSlots extends React.Component {
                                                     let size = text.length;
                                                     if (text.charAt(size - 1) <= 9 && text.charAt(size - 1) >= 0) {
                                                         if (text <= 23 && text >= 0) {
-                                                            this.setState({ startHour: text })
+                                                            this.setState({ endHour: text })
                                                         }
                                                     }
                                                 }}
@@ -125,7 +125,7 @@ class RenderSlots extends React.Component {
                                                     let size = text.length;
                                                     if (text.charAt(size - 1) <= 9 && text.charAt(size - 1) >= 0) {
                                                         if (text <= 59 && text >= 0) {
-                                                            this.setState({ startHour: text })
+                                                            this.setState({ endMinute: text })
                                                         }
                                                     }
                                                 }}
