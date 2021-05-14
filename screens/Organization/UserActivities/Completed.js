@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { View, Text, StyleSheet, FlatList } from 'react-native';
-import RenderActivity from '../../../components/RenderActivity';
+import RenderActivity from './RenderActivity';
 
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
