@@ -15,7 +15,7 @@ class RadioButton extends React.Component {
                 width: 24,
                 borderRadius: 12,
                 borderWidth: 2,
-                borderColor: '#000',
+                borderColor: this.props.grey ? 'grey' : '#000',
                 alignItems: 'center',
                 justifyContent: 'center',
             }, this.props.style]}>
@@ -25,7 +25,7 @@ class RadioButton extends React.Component {
                             height: 12,
                             width: 12,
                             borderRadius: 6,
-                            backgroundColor: '#000',
+                            backgroundColor: this.props.grey ? 'grey' : '#000',
                         }} />
                         : null
                 }
@@ -41,8 +41,9 @@ class RenderActivity extends React.Component {
         this.state = {
             modalVisible: false,
             showJoin: true,
-            days: ["mon", "tue", "wed", "thur", "fri", "sat", "sun"],
-            slotsAvailable: []
+            days: ["sun", "mon", "tue", "wed", "thur", "fri", "sat"],
+            slotsAvailable: [],
+            daysAvailable: [0, 0, 0, 0, 0, 0, 0]
         }
     }
 
@@ -56,7 +57,7 @@ class RenderActivity extends React.Component {
             })
             slots.push(slot);
         });
-        
+
         volunteerApi.joinActivity({
             volunteerId: this.props.volunteerId,
             activityId: this.props.item._id,
@@ -91,14 +92,15 @@ class RenderActivity extends React.Component {
 
     renderEachSlot(slot, index) {
         return (
-            <View key={index}>
-                <Text style={styles.valueHeader}>{this.state.days[index]}</Text>
+            <View key={index}
+                pointerEvents={this.state.daysAvailable[index] ? "auto" : "none"}>
+                <Text style={this.state.daysAvailable[index] ? styles.valueHeader : { ...styles.valueHeader, color: "grey" }}>{this.state.days[index]}</Text>
                 {slot.map((item, index1) => {
                     return (
                         <TouchableOpacity key={index1} onPress={() => this.slotSelection(index, index1)}>
                             <View style={{ paddingLeft: 10, flexDirection: 'row' }} >
                                 <View>
-                                    <RadioButton selected={item.selected} />
+                                    <RadioButton selected={item.selected} grey={!this.state.daysAvailable[index]} />
                                 </View>
                                 <Text>{item.start} - {item.end}</Text>
                             </View>
@@ -109,7 +111,58 @@ class RenderActivity extends React.Component {
         )
     }
 
+    compareDates(date1, date2) {
+        if (date1.getFullYear() < date2.getFullYear()) {
+            return 1;
+        }
+        else if (date1.getFullYear() > date2.getFullYear()) {
+            return 0;
+        }
+        else {
+            if (date1.getMonth() < date2.getMonth()) {
+                return 1;
+            }
+            else if (date1.getMonth() > date2.getMonth()) {
+                return 0;
+            }
+            else {
+                if (date1.getDate() > date2.getDate()) {
+                    return 0;
+                }
+                else {
+                    return 1;
+                }
+            }
+        }
+    }
+
+    setDaysAvailable() {
+        let startDateParts = this.props.item.startDate.split('-');
+        let startDateObject = new Date(startDateParts[0], startDateParts[1] - 1, startDateParts[2]);
+
+        let todayDateObject = new Date();
+        if (+todayDateObject > +startDateObject) {
+            startDateObject = new Date();
+        }
+
+        let endDateParts = this.props.item.endDate.split('-');
+        let endDateObject = new Date(endDateParts[0], endDateParts[1] - 1, endDateParts[2]);
+        let daysAvailable = [0, 0, 0, 0, 0, 0, 0];
+        for (let i = 0; i < 7; i++) {
+            let presentDateObject = new Date();
+            presentDateObject.setDate(startDateObject.getDate() + i);
+            if (this.compareDates(presentDateObject, endDateObject)) {
+                daysAvailable[presentDateObject.getDay()] = 1;
+            }
+            else {
+                break;
+            }
+        }
+        this.setState({ "daysAvailable": daysAvailable })
+    }
+
     onPressModal() {
+        this.setDaysAvailable();
         this.setState({ modalVisible: true })
         let slots = [];
         this.props.item.slots.forEach(value0 => {
