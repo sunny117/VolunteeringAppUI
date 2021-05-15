@@ -102,7 +102,7 @@ class RenderActivity extends React.Component {
                                 <View>
                                     <RadioButton selected={item.selected} grey={!this.state.daysAvailable[index]} />
                                 </View>
-                                <Text>{item.start} - {item.end}</Text>
+                                <Text style={this.state.daysAvailable[index] ? {} : { color: 'grey' }}>{item.start} - {item.end}</Text>
                             </View>
                         </TouchableOpacity>
                     )
