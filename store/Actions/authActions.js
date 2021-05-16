@@ -38,9 +38,3 @@ export function clearAuth(){
         type: 'CLEAR_AUTH'
     };
 };
-
-export function signOut(){
-    return {
-        type: 'SIGNOUT_REQUEST'
-    };
-};
