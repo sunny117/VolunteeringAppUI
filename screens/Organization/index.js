@@ -24,7 +24,8 @@ class Organization extends React.Component {
         super(props);
         this.state = {
             newUser: -1,
-            loading: false
+            loading: false,
+            warning: false
         };
     };
 
@@ -128,7 +129,10 @@ class Organization extends React.Component {
                                     autoCorrect={false}
                                     keyboardType='number-pad'
                                     value={this.props.userContactNumber}
-                                    onChangeText={(value) => this.props.authActions.setUserContactNumber(value.replace(/[^0-9]/g, ''))}
+                                    onChangeText={(value) => {
+                                        if (value.length <= 10)
+                                            this.props.authActions.setUserContactNumber(value.replace(/[^0-9]/g, ''))
+                                    }}
                                 />
                             </View>
                             <View style={styles.inputContainer}>
@@ -142,10 +146,19 @@ class Organization extends React.Component {
                             </View>
 
                             <View style={styles.goContainer}>
-                                <TouchableOpacity onPress={() => this.onPressFinish()}>
+                                <TouchableOpacity onPress={() => {
+                                    if (this.props.userContactNumber.length == 10) {
+                                        this.setState({ warning: false })
+                                        this.onPressFinish()
+                                    }
+                                    else {
+                                        this.setState({ warning: true });
+                                    }
+                                }}>
                                     <Text style={styles.goText}>Add</Text>
                                 </TouchableOpacity>
                             </View>
+                            {this.state.warning && <Text style={{ color: "red" }}>*Contact number should have 10 digits*</Text>}
                         </View>
                     </KeyboardAwareScrollView>
                 </View>
