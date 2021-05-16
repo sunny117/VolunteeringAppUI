@@ -116,7 +116,7 @@ const activityReducer = (
                 ...state, description: action.description
             }
 
-        case "RESET_CREATE_STATE":
+        case "CLEAR_CREATE_STATE":
             return {
                 heading: '',
                 type: '',
