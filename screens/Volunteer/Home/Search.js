@@ -10,6 +10,7 @@ import { VA_DatePicker } from '../../../components/VA_DatePicker';
 import * as searchActivity from '../../../store/Actions/searchActivity'
 import volunteerApi from '../../../util/volunteerApi'
 import { CurrentLocation } from '../../../util/currentLocation'
+import LoadingScreen from '../../../components/LoadingScreen';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -79,6 +80,7 @@ class Search extends React.Component {
         return (
             <TouchableWithoutFeedback>
                 <View style={styles.mainContainer}>
+                    {this.props.isLoading && <LoadingScreen />}
                     <View style={styles.header}>
                         <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#2196F3' }}> Find an Activity </Text>
                     </View>
