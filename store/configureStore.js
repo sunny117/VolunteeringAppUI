@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { createStore, combineReducers } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import authReducer from './Reducers/authReducer';
@@ -20,16 +20,8 @@ const appReducer = combineReducers({
     activityReducer
 });
 
-const rootReducer = (state, action) => {
-    if (action.type == "SIGNOUT_REQUEST") {
-        AsyncStorage.removeItem('persist:root')
-        return appReducer(undefined, action);
-    }
-    return appReducer(state, action);
-}; 
-
 export const store = createStore(
-    rootReducer
+    appReducer
 );
 
 export const persistor = persistStore(store);
