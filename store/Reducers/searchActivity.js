@@ -31,13 +31,24 @@ const searchActivity = (state = {
             }
 
         case "ADD_SEARCH_ACTIVITIES":
-			return {
-				...state, activities: action.activities
-			}
+            return {
+                ...state, activities: action.activities
+            }
 
         case "SET_JOINED_SLOTS":
             return {
                 ...state, slots: action.slots
+            }
+        case "CLEAR_SEARCH_ACTIVITIES":
+            return {
+                type: '',
+                address: '',
+                longitude: '',
+                latitude: '',
+                startDate: '',
+                endDate: '',
+                activities: [],
+                slots: []
             }
         default:
             return state
