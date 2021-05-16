@@ -29,6 +29,7 @@ class RenderActivity extends React.Component {
     };
 
     render() {
+        let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
         return (
             <View>
                 <TouchableWithoutFeedback onPress={() => this.onPressModal()}>
@@ -101,12 +102,32 @@ class RenderActivity extends React.Component {
                                             <Text style={styles.value}>{this.props.item.description}</Text>
                                         }
                                     </View>
+                                    <View style={styles.valueContainer}>
+                                        <Text style={styles.valueHeader}>Slots</Text>
+                                        {
+                                            this.props.item.slots.map((day, index) => {
+                                                return <View key={days[index]} style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+                                                    <Text style={styles.dayHeader}>{days[index]}</Text>
+                                                    <View style={{ flexDirection: 'column', paddingRight: 160 }}>
+                                                        {day.map((slot, id) => {
+                                                            return (
+                                                                <View key={id} style={{ flexDirection: 'row', }}>
+                                                                    <Text style={styles.slotValues}>{slot.start}</Text>
+                                                                    <Text style={styles.slotValues}>-</Text>
+                                                                    <Text style={styles.slotValues}>{slot.end}</Text>
+                                                                </View>
+                                                            )
+                                                        })}
+                                                    </View>
+                                                </View>
+                                            })
+                                        }
+                                    </View>
                                 </Card>
-                                <Card>
-                                    {this.state.volunteerList.length > 0 ?
-                                        this.state.volunteerList.map(
+                                {this.props.Completed && this.state.volunteerList.length > 0 ?
+                                    <Card>
+                                        {this.state.volunteerList.map(
                                             (element, index) => {
-                                                console.log(element)
                                                 let value = element.activities.find(temp => temp.id == this.props.item._id);
                                                 return (
                                                     <View key={element._id} style={index == 0 ? styles.ratingView : { ...styles.ratingView, borderTopWidth: 1, borderColor: 'black' }}>
@@ -125,9 +146,9 @@ class RenderActivity extends React.Component {
                                                     </View>
                                                 )
                                             }
-                                        )
-                                        : null}
-                                </Card>
+                                        )}
+                                    </Card>
+                                    : null}
                             </View>
                         </ScrollView>
                         <View style={styles.imageText}>
@@ -156,6 +177,12 @@ const styles = StyleSheet.create({
     value: {
         fontSize: 15
     },
+    dayHeader: {
+        fontWeight: "bold"
+    },
+    slotValues: {
+        paddingHorizontal: 5,
+    },
     imageText: {
         position: 'absolute',
         padding: 10
@@ -170,7 +197,6 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        volunteerId: state.authReducer.userId
     };
 };
 
