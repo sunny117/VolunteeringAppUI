@@ -41,3 +41,9 @@ export function setJoinedSlots( slots ) {
         slots
     }
 }
+
+export function resetState(){
+    return {
+        type: "CLEAR_SEARCH_ACTIVITIES"
+    }
+}
