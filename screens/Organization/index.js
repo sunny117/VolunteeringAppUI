@@ -16,40 +16,46 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import Icon from 'react-native-vector-icons/Ionicons';
 import UserActivities from './UserActivities';
+import LoadingScreen from '../../components/LoadingScreen';
 
 
 class Organization extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            newUser: -1
+            newUser: -1,
+            loading: false
         };
     };
 
-    componentDidMount() {
-        OrganizationApi.getOrganization(this.props.userEmail)
-            .then(result => {
-                if (result.org.length == 0) {
-                    this.setState({
-                        newUser: 1
-                    })
-                }
-                else {
-                    this.setState({
-                        newUser: 0
-                    });
-                    let user = result.org[0];
-                    this.props.authActions.setAuth({
-                        userId: user._id,
-                        userName: user.name,
-                        userEmail: user.email,
-                        userDescription: user.orgDescription,
-                        userContactNumber: user.contactNumber,
-                        userLocation: user.location
-                    })
-                }
-            })
+    _setLoading = value => this.setState({ loading: value });
 
+    componentDidMount() {
+        this.setState({ loading: true }, function () {
+            OrganizationApi.getOrganization(this.props.userEmail)
+                .then(result => {
+                    if (result.org.length == 0) {
+                        this.setState({
+                            newUser: 1
+                        })
+                    }
+                    else {
+                        this.setState({
+                            newUser: 0
+                        });
+                        let user = result.org[0];
+                        this.props.authActions.setAuth({
+                            userId: user._id,
+                            userName: user.name,
+                            userEmail: user.email,
+                            userDescription: user.orgDescription,
+                            userContactNumber: user.contactNumber,
+                            userLocation: user.location
+                        })
+                    }
+                })
+            this._setLoading(false);
+        })
     };
 
     onPressFinish() {
@@ -79,6 +85,7 @@ class Organization extends React.Component {
         if (this.state.newUser == 1) {
             return (
                 <View style={{ backgroundColor: 'grey', flex: 1 }}>
+                    {this.state.loading && <LoadingScreen />}
                     <KeyboardAwareScrollView>
                         <View onStartShouldSetResponder={() => true}>
                             <Text style={{ ...styles.inputHeader, fontSize: 20, margin: 50, alignSelf: 'center' }}>ADD ORGANIZATION </Text>
@@ -173,7 +180,9 @@ class Organization extends React.Component {
                             marginBottom: 2,
                         },
                     }}>
-                    <Tab.Screen name="Home" component={Home} />
+                    <Tab.Screen name="Home">
+                        {(props) => <Home {...props} isLoading={this.state.loading} />}
+                    </Tab.Screen>
                     <Tab.Screen name="Activity" component={UserActivities} />
                     <Tab.Screen name="Profile" component={Profile} />
                 </Tab.Navigator>

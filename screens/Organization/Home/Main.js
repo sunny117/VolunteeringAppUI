@@ -10,6 +10,7 @@ import { VA_Location } from '../../../components/VA_Location'
 import * as createActivity from '../../../store/Actions/createActivity'
 import organizationApi from '../../../util/organizationApi'
 import { CurrentLocation } from '../../../util/currentLocation'
+import LoadingScreen from '../../../components/LoadingScreen';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -63,8 +64,8 @@ class MainScreen extends React.Component {
     };
 
     componentDidMount() {
-        this._unsubscribeFocus = this.props.navigation.addListener('focus',() => {
-            if(this.props.route.params){
+        this._unsubscribeFocus = this.props.navigation.addListener('focus', () => {
+            if (this.props.route.params) {
                 this.props.route.params.clearLocation ? this.locRef.current.clear() : null;
             }
         });
@@ -79,6 +80,7 @@ class MainScreen extends React.Component {
             <TouchableWithoutFeedback>
                 <KeyboardAwareScrollView>
                     <View style={styles.mainContainer} onStartShouldSetResponder={() => true}>
+                        {this.props.isLoading && <LoadingScreen />}
                         <View style={styles.header}>
                             <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#2196F3' }}> Create an Activity </Text>
                         </View>
