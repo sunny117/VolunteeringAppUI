@@ -11,6 +11,10 @@ import GoogleApi from '../../../util/googleApi';
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import * as authActions from '../../../store/Actions/authActions';
+import * as createActivity from '../../../store/Actions/createActivity';
+import * as orgActivityActions from '../../../store/Actions/orgActivityActions';
+import * as searchActivity from '../../../store/Actions/searchActivity';
+import * as volActivityActions from '../../../store/Actions/volActivityActions';
 
 class Profile extends React.Component {
     constructor(props) {
@@ -21,6 +25,10 @@ class Profile extends React.Component {
         GoogleApi.signOut()
             .then(() => {
                 this.props.authActions.clearAuth();
+                this.props.createActivity.resetState();
+                this.props.orgActivityActions.clearActivities();
+                this.props.searchActivity.resetState();
+                this.props.volActivityActions.clearActivities();
             })
             .catch(error => {
                 console.log(error);
@@ -135,7 +143,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        authActions: bindActionCreators(authActions, dispatch)
+        authActions: bindActionCreators(authActions, dispatch),
+        createActivity: bindActionCreators(createActivity, dispatch),
+        orgActivityActions: bindActionCreators(orgActivityActions, dispatch),
+        searchActivity: bindActionCreators(searchActivity, dispatch),
+        volActivityActions: bindActionCreators(volActivityActions, dispatch)
     };
 };
 

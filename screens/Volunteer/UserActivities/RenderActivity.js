@@ -5,8 +5,7 @@ import Card from '../../../components/Card';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { connect } from "react-redux";
-import { Rating } from 'react-native-elements'
-import OrganizationApi from '../../../util/organizationApi';
+import VolunteerApi from '../../../util/volunteerApi';
 
 class RenderActivity extends React.Component {
 
@@ -14,15 +13,17 @@ class RenderActivity extends React.Component {
         super(props);
         this.state = {
             modalVisible: false,
-            volunteerList: []
         }
     }
 
     onPressModal() {
-        OrganizationApi.getVolunteers(this.props.item._id)
-            .then(list => {
+        VolunteerApi.getVolunteer(this.props.volunteerEmail)
+            .then(volunteer => {
+                let user = volunteer.org[0];
+                let activity = user.activities.find(activity => activity.id == this.props.item._id)
                 this.setState({
-                    volunteerList: list.volunteers
+                    activity: activity,
+                    volunteer: volunteer.org[0]
                 })
             })
         this.setState({ modalVisible: true })
@@ -102,53 +103,44 @@ class RenderActivity extends React.Component {
                                             <Text style={styles.value}>{this.props.item.description}</Text>
                                         }
                                     </View>
+                                    {
+                                        this.props.Completed ?
+                                            <View style={styles.valueContainer}>
+                                                <Text style={styles.valueHeader}>Rating</Text>
+                                                {
+                                                    (this.state.volunteer && this.state.activity.rating != -1) ?
+                                                        <Text style={{...styles.value, color: 'black'}}>{this.state.activity.rating}</Text> :
+                                                        <Text style={{ ...styles.value, color: 'grey' }}>** Not Rated Yet **</Text>
+                                                }
+                                            </View>
+                                            : null
+                                    }
                                     <View style={styles.valueContainer}>
-                                        <Text style={styles.valueHeader}>Slots</Text>
-                                        {
-                                            this.props.item.slots.map((day, index) => {
-                                                return <View key={days[index]} style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-                                                    <Text style={styles.dayHeader}>{days[index]}</Text>
-                                                    <View style={{ flexDirection: 'column', paddingRight: 160 }}>
-                                                        {day.map((slot, id) => {
-                                                            return (
-                                                                <View key={id} style={{ flexDirection: 'row', }}>
-                                                                    <Text style={styles.slotValues}>{slot.start}</Text>
-                                                                    <Text style={styles.slotValues}>-</Text>
-                                                                    <Text style={styles.slotValues}>{slot.end}</Text>
-                                                                </View>
-                                                            )
-                                                        })}
-                                                    </View>
-                                                </View>
+                                        <Text style={styles.valueHeader}>Slots Selected</Text>
+                                        {this.state.volunteer ?
+                                            this.state.volunteer.activities.map(element => {
+                                                if (element.id == this.props.item._id) {
+                                                    return element.slotSelected.map((day, index) => {
+                                                        return <View key={days[index]} style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+                                                            <Text style={styles.dayHeader}>{days[index]}</Text>
+                                                            <View style={{ flexDirection: 'column', paddingRight: 160 }}>
+                                                                {day.map((slot, id) => {
+                                                                    return (
+                                                                        <View key={id} style={{ flexDirection: 'row', }}>
+                                                                            <Text style={styles.slotValues}>{slot.start}</Text>
+                                                                            <Text style={styles.slotValues}>-</Text>
+                                                                            <Text style={styles.slotValues}>{slot.end}</Text>
+                                                                        </View>
+                                                                    )
+                                                                })}
+                                                            </View>
+                                                        </View>
+                                                    })
+                                                }
                                             })
-                                        }
+                                            : null}
                                     </View>
                                 </Card>
-                                {this.props.Completed && this.state.volunteerList.length > 0 ?
-                                    <Card>
-                                        {this.state.volunteerList.map(
-                                            (element, index) => {
-                                                let value = element.activities.find(temp => temp.id == this.props.item._id);
-                                                return (
-                                                    <View key={element._id} style={index == 0 ? styles.ratingView : { ...styles.ratingView, borderTopWidth: 1, borderColor: 'black' }}>
-                                                        <Text>{element.name}</Text>
-                                                        <Rating
-                                                            imageSize={25}
-                                                            startingValue={value.rating}
-                                                            onFinishRating={rating => {
-                                                                OrganizationApi.rateVolunteer({
-                                                                    activityId: this.props.item._id,
-                                                                    volunteerId: element._id,
-                                                                    rating
-                                                                })
-                                                            }}
-                                                        />
-                                                    </View>
-                                                )
-                                            }
-                                        )}
-                                    </Card>
-                                    : null}
                             </View>
                         </ScrollView>
                         <View style={styles.imageText}>
@@ -187,16 +179,11 @@ const styles = StyleSheet.create({
         position: 'absolute',
         padding: 10
     },
-    ratingView: {
-        flexDirection: 'row',
-        padding: 10,
-        alignItems: 'center',
-        justifyContent: 'space-between'
-    }
 });
 
 function mapStateToProps(state) {
     return {
+        volunteerEmail: state.authReducer.userEmail
     };
 };
 

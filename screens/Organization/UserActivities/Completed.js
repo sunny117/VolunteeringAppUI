@@ -22,7 +22,7 @@ class Completed extends React.Component {
 
     renderActivity = ({ item }) => {
         return (
-            <RenderActivity item={item} />
+            <RenderActivity item={item} Completed={true}/>
         );
     };
 

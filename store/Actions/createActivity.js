@@ -75,6 +75,6 @@ export function setDescription( description ) {
 
 export function resetState() {
     return {
-        type: "RESET_CREATE_STATE"
+        type: "CLEAR_CREATE_STATE"
     }
 }
