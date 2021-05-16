@@ -12,7 +12,7 @@ const persistConfig = {
     storage: AsyncStorage,
 };
 
-const reducers = combineReducers({
+const appReducer = combineReducers({
     authReducer: persistReducer(persistConfig, authReducer),
     searchActivity,
     orgActivityReducer,
@@ -20,8 +20,15 @@ const reducers = combineReducers({
     activityReducer
 });
 
+const rootReducer = (state, action) => {
+    if (action.type == "SIGNOUT_REQUEST") {
+        return appReducer(undefined, action);
+    }
+    return appReducer(state, action);
+}; 
+
 export const store = createStore(
-    reducers
+    rootReducer
 );
 
 export const persistor = persistStore(store);
