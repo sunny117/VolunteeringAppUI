@@ -53,8 +53,8 @@ class Organization extends React.Component {
                             userLocation: user.location
                         })
                     }
+                    this._setLoading(false);
                 })
-            this._setLoading(false);
         })
     };
 
