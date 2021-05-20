@@ -35,6 +35,11 @@ class SlotsScreen extends React.Component {
         return returnValue;
     }
 
+    _resetAvailability = () => {
+        let i = 0;
+        for(i; i < 7; i++) this._setAvailability(i, false);
+    }
+
     _resetState = value => { this.props.activityActions.resetState() }
 
     _handleClick = e => {
@@ -106,6 +111,7 @@ class SlotsScreen extends React.Component {
                                         let x = this.props.activityState.startDate, y = this.props.activityState.endDate;
                                         if (x && y) {
                                             let result = conversions.DayChecker(x, y);
+                                            this._resetAvailability();
                                             result.forEach(x => this._setAvailability(x, true));
                                         }
                                     }}
@@ -121,6 +127,7 @@ class SlotsScreen extends React.Component {
                                         let x = this.props.activityState.startDate, y = this.props.activityState.endDate;
                                         if (x && y) {
                                             let result = conversions.DayChecker(x, y);
+                                            this._resetAvailability();
                                             result.forEach(x => this._setAvailability(x, true));
                                         }
                                     }}
@@ -136,7 +143,7 @@ class SlotsScreen extends React.Component {
                         </View>
 
 
-                        {this.state.warning ? <Text style={{ marginLeft: 14 }}>Please all Duration fields and atleast one slot</Text> : null}
+                        {this.state.warning ? <Text style={{ marginLeft: 14 }}>Please fill all Duration fields and atleast one slot</Text> : null}
                         <VA_Button title="Confirm" buttonStyle={styles.button} onPress={() => this._handleClick()} />
                     </View>
                 </KeyboardAwareScrollView>
