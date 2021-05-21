@@ -6,6 +6,7 @@ import RenderActivity from './RenderActivity';
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import * as authActions from '../../../store/Actions/authActions';
+import LoadingScreen from '../../../components/LoadingScreen';
 
 class Upcoming extends React.Component {
     constructor(props) {
@@ -29,6 +30,7 @@ class Upcoming extends React.Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
+                {this.props.isLoading && <LoadingScreen />}
                 {this.props.upcomingActivities === null || this.props.upcomingActivities == undefined || this.props.upcomingActivities.length === 0 ?
                     this.noResults()
                     :

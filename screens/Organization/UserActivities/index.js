@@ -14,13 +14,20 @@ import OrganizationApi from '../../../util/organizationApi';
 class UserActivities extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            loading: false
+        }
     };
 
+    _setLoading = (value) => this.setState({ loading: value })
+
     fetchActivities() {
+        this._setLoading(true);
         OrganizationApi.getActivities(this.props.userId)
             .then(response => {
                 this.props.orgActivityActions.setCompletedActivities(response.completedActivities);
                 this.props.orgActivityActions.setUpcomingActivities(response.upcomingActivities);
+                this._setLoading(false);
             })
             .catch(error => {
                 console.log(error);
@@ -28,7 +35,7 @@ class UserActivities extends React.Component {
     };
 
     componentDidMount() {
-        this._unsubscribeFocus = this.props.navigation.addListener('focus',() => {
+        this._unsubscribeFocus = this.props.navigation.addListener('focus', () => {
             this.fetchActivities();
         });
     };
@@ -63,8 +70,12 @@ class UserActivities extends React.Component {
                         flexDirection: 'row'
                     },
                 }} >
-                <Tab.Screen name="Completed" component={Completed} />
-                <Tab.Screen name="Upcoming" component={Upcoming} />
+                <Tab.Screen name="Completed" >
+                    {(props) => <Completed {...props} isLoading={this.state.loading} />}
+                </Tab.Screen>
+                <Tab.Screen name="Upcoming">
+                    {(props) => <Upcoming {...props} isLoading={this.state.loading} />}
+                </Tab.Screen>
             </Tab.Navigator>
         );
     };
