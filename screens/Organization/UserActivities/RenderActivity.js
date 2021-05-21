@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from "react-redux";
 import { Rating } from 'react-native-elements'
 import OrganizationApi from '../../../util/organizationApi';
+import styles from '../../../util/activitiesStyle';
 
 class RenderActivity extends React.Component {
 
@@ -29,34 +30,34 @@ class RenderActivity extends React.Component {
     };
 
     render() {
-        let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+        let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         return (
             <View>
                 <TouchableWithoutFeedback onPress={() => this.onPressModal()}>
                     <View>
                         <Card>
-                            <View style={styles.valueContainer}>
-                                <Text style={styles.valueHeader}>Heading</Text>
-                                <Text style={styles.value}>{this.props.item.heading}</Text>
+                            <View style={styles.mainView}>
+                                <Text style={styles.titleText}>Heading</Text>
+                                <Text style={styles.valueText}>{this.props.item.heading}</Text>
                             </View>
                             <View style={{ flexDirection: 'row' }}>
-                                <View style={styles.valueContainer}>
-                                    <Text style={styles.valueHeader}>Type</Text>
-                                    <Text style={styles.value}>{this.props.item.type}</Text>
+                                <View style={styles.mainView}>
+                                    <Text style={styles.titleText}>Type</Text>
+                                    <Text style={styles.valueText}>{this.props.item.type}</Text>
                                 </View>
-                                <View style={styles.valueContainer}>
-                                    <Text style={styles.valueHeader}>Volunteers Joined</Text>
-                                    <Text style={styles.value}>{this.props.item.volunteers.length}</Text>
+                                <View style={styles.mainView}>
+                                    <Text style={styles.titleText}>Volunteers Joined</Text>
+                                    <Text style={styles.valueText}>{this.props.item.volunteers.length}</Text>
                                 </View>
                             </View>
                             <View style={{ flexDirection: 'row' }}>
-                                <View style={styles.valueContainer}>
-                                    <Text style={styles.valueHeader}>Start</Text>
-                                    <Text style={styles.value}>{this.props.item.startDate}</Text>
+                                <View style={styles.mainView}>
+                                    <Text style={styles.titleText}>Start</Text>
+                                    <Text style={styles.valueText}>{this.props.item.startDate}</Text>
                                 </View>
-                                <View style={styles.valueContainer}>
-                                    <Text style={styles.valueHeader}>End</Text>
-                                    <Text style={styles.value}>{this.props.item.endDate}</Text>
+                                <View style={styles.mainView}>
+                                    <Text style={styles.titleText}>End</Text>
+                                    <Text style={styles.valueText}>{this.props.item.endDate}</Text>
                                 </View>
                             </View>
 
@@ -69,86 +70,90 @@ class RenderActivity extends React.Component {
                             <View>
 
                                 <Card style={{ marginTop: 50 }}>
-                                    <View style={styles.valueContainer}>
-                                        <Text style={styles.valueHeader}>Heading</Text>
-                                        <Text style={styles.value}>{this.props.item.heading}</Text>
+                                    <View style={styles.mainView}>
+                                        <Text style={styles.titleText}>Heading</Text>
+                                        <Text style={styles.valueText}>{this.props.item.heading}</Text>
                                     </View>
-                                    <View style={styles.valueContainer}>
-                                        <Text style={styles.valueHeader}>Type</Text>
-                                        <Text style={styles.value}>{this.props.item.type}</Text>
+                                    <View style={styles.mainView}>
+                                        <Text style={styles.titleText}>Type</Text>
+                                        <Text style={styles.valueText}>{this.props.item.type}</Text>
                                     </View>
-                                    <View style={styles.valueContainer}>
-                                        <Text style={styles.valueHeader}>Volunteers Joined</Text>
-                                        <Text style={styles.value}>{this.props.item.volunteers.length}</Text>
+                                    <View style={styles.mainView}>
+                                        <Text style={styles.titleText}>Volunteers Joined</Text>
+                                        <Text style={styles.valueText}>{this.props.item.volunteers.length}</Text>
                                     </View>
-                                    <View style={styles.valueContainer}>
-                                        <Text style={styles.valueHeader}>Address</Text>
-                                        <Text style={styles.value}>{this.props.item.location.address}</Text>
+                                    <View style={styles.mainView}>
+                                        <Text style={styles.titleText}>Address</Text>
+                                        <Text style={styles.valueText}>{this.props.item.location.address}</Text>
                                     </View>
                                     <View style={{ flexDirection: 'row' }}>
-                                        <View style={styles.valueContainer}>
-                                            <Text style={styles.valueHeader}>Start</Text>
-                                            <Text style={styles.value}>{this.props.item.startDate}</Text>
+                                        <View style={styles.mainView}>
+                                            <Text style={styles.titleText}>Start</Text>
+                                            <Text style={styles.valueText}>{this.props.item.startDate}</Text>
                                         </View>
-                                        <View style={styles.valueContainer}>
-                                            <Text style={styles.valueHeader}>End</Text>
-                                            <Text style={styles.value}>{this.props.item.endDate}</Text>
+                                        <View style={styles.mainView}>
+                                            <Text style={styles.titleText}>End</Text>
+                                            <Text style={styles.valueText}>{this.props.item.endDate}</Text>
                                         </View>
                                     </View>
-                                    <View style={styles.valueContainer}>
-                                        <Text style={styles.valueHeader}>Description</Text>
+                                    <View style={styles.mainView}>
+                                        <Text style={styles.titleText}>Description</Text>
                                         {this.props.item.description == "" ?
-                                            <Text style={{ ...styles.value, color: 'grey' }}>** No info specified **</Text> :
-                                            <Text style={styles.value}>{this.props.item.description}</Text>
+                                            <Text style={{ ...styles.valueText, color: '#bab9b8' }}>** No info specified **</Text> :
+                                            <Text style={styles.valueText}>{this.props.item.description}</Text>
                                         }
                                     </View>
-                                    <View style={styles.valueContainer}>
-                                        <Text style={styles.valueHeader}>Slots</Text>
+                                    <View style={styles.mainView}>
+                                        <Text style={styles.titleText}>Schedule</Text>
                                         {
                                             this.props.item.slots.map((day, index) => {
-                                                return <View key={days[index]} style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-                                                    <Text style={styles.dayHeader}>{days[index]}</Text>
-                                                    <View style={{ flexDirection: 'column', paddingRight: 160 }}>
-                                                        {day.map((slot, id) => {
+                                                return <View key={days[index]} style={styles.dayView}>
+                                                    <Text style={styles.dayText}>{days[index]}</Text>
+                                                    <View style={{ flexDirection: 'column', paddingRight: 100 }}>
+                                                        {day.length > 0 ? day.map((slot, id) => {
                                                             return (
                                                                 <View key={id} style={{ flexDirection: 'row', }}>
-                                                                    <Text style={styles.slotValues}>{slot.start}</Text>
-                                                                    <Text style={styles.slotValues}>-</Text>
-                                                                    <Text style={styles.slotValues}>{slot.end}</Text>
+                                                                    <Text style={styles.slotText}>{slot.start}</Text>
+                                                                    <Text style={styles.slotText}>-</Text>
+                                                                    <Text style={styles.slotText}>{slot.end}</Text>
                                                                 </View>
                                                             )
-                                                        })}
+                                                        }) : <Text style={{ ...styles.slotText, color: "#bab9b8" }}>**No Slots**</Text>}
                                                     </View>
                                                 </View>
                                             })
                                         }
                                     </View>
+
+                                    {this.props.Completed && this.state.volunteerList.length > 0 ?
+                                        <View style={styles.mainView}>
+                                            <Text style={styles.titleText}>Volunteer Rating</Text>
+                                            <View>
+                                                {this.state.volunteerList.map(
+                                                    (element, index) => {
+                                                        let value = element.activities.find(temp => temp.id == this.props.item._id);
+                                                        return (
+                                                            <View key={element._id} style={index == 0 ? styles.ratingView : { ...styles.ratingView, borderTopWidth: 1, borderColor: 'black' }}>
+                                                                <Text style={{ fontSize: 18, fontWeight: "normal" }}>{element.name}</Text>
+                                                                <Rating
+                                                                    imageSize={25}
+                                                                    startingValue={value.rating}
+                                                                    onFinishRating={rating => {
+                                                                        OrganizationApi.rateVolunteer({
+                                                                            activityId: this.props.item._id,
+                                                                            volunteerId: element._id,
+                                                                            rating
+                                                                        })
+                                                                    }}
+                                                                />
+                                                            </View>
+                                                        )
+                                                    }
+                                                )}
+                                            </View>
+                                        </View>
+                                        : null}
                                 </Card>
-                                {this.props.Completed && this.state.volunteerList.length > 0 ?
-                                    <Card>
-                                        {this.state.volunteerList.map(
-                                            (element, index) => {
-                                                let value = element.activities.find(temp => temp.id == this.props.item._id);
-                                                return (
-                                                    <View key={element._id} style={index == 0 ? styles.ratingView : { ...styles.ratingView, borderTopWidth: 1, borderColor: 'black' }}>
-                                                        <Text>{element.name}</Text>
-                                                        <Rating
-                                                            imageSize={25}
-                                                            startingValue={value.rating}
-                                                            onFinishRating={rating => {
-                                                                OrganizationApi.rateVolunteer({
-                                                                    activityId: this.props.item._id,
-                                                                    volunteerId: element._id,
-                                                                    rating
-                                                                })
-                                                            }}
-                                                        />
-                                                    </View>
-                                                )
-                                            }
-                                        )}
-                                    </Card>
-                                    : null}
                             </View>
                         </ScrollView>
                         <View style={styles.imageText}>
@@ -162,38 +167,6 @@ class RenderActivity extends React.Component {
         );
     }
 }
-
-
-const styles = StyleSheet.create({
-    valueContainer: {
-        margin: 5,
-        flex: 1
-    },
-    valueHeader: {
-        color: "blue",
-        fontSize: 12,
-        fontWeight: 'bold'
-    },
-    value: {
-        fontSize: 15
-    },
-    dayHeader: {
-        fontWeight: "bold"
-    },
-    slotValues: {
-        paddingHorizontal: 5,
-    },
-    imageText: {
-        position: 'absolute',
-        padding: 10
-    },
-    ratingView: {
-        flexDirection: 'row',
-        padding: 10,
-        alignItems: 'center',
-        justifyContent: 'space-between'
-    }
-});
 
 function mapStateToProps(state) {
     return {
