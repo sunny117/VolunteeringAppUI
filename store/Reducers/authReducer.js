@@ -10,7 +10,8 @@ const authReducer = (state = {
     userDescription: '',
     userContactNumber: '',
     userLocation: '',
-
+    isDialogVisible: false,
+    diaglogValue: ''
 }, action) => {
     switch (action.type) {
         case 'SET_AUTH':
@@ -38,6 +39,16 @@ const authReducer = (state = {
                 ...state,
                 userLocation: action.value
             };
+        case 'SET_DIALOG_VISIBILITY':
+            return {
+                ...state,
+                isDialogVisible: action.value
+            }
+        case 'SET_DIALOG':
+            return {
+                ...state,
+                dialogValue: action.value
+            }
         case 'CLEAR_AUTH':
             return {
                 isSignedIn : false,
@@ -49,7 +60,9 @@ const authReducer = (state = {
                 userEmail: '',
                 userDescription: '',
                 userContactNumber: '',
-                userLocation: '',            
+                userLocation: '', 
+                isDialogVisible: false,
+                diaglogValue: ''           
             }
         default:
             return state;
