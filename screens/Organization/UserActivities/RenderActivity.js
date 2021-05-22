@@ -108,8 +108,10 @@ class RenderActivity extends React.Component {
                                         {
                                             this.props.item.slots.map((day, index) => {
                                                 return <View key={days[index]} style={styles.dayView}>
-                                                    <Text style={styles.dayText}>{days[index]}</Text>
-                                                    <View style={{ flexDirection: 'column', paddingRight: 100 }}>
+                                                    <View style={{ flex: 1 }}>
+                                                        <Text style={styles.dayText}>{days[index]}</Text>
+                                                    </View>
+                                                    <View style={{ flexDirection: 'column', flex: 1.5 }}>
                                                         {day.length > 0 ? day.map((slot, id) => {
                                                             return (
                                                                 <View key={id} style={{ flexDirection: 'row', }}>

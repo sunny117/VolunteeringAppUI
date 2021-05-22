@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from "react-redux";
 import VolunteerApi from '../../../util/volunteerApi';
 import styles from '../../../util/activitiesStyle';
+import LoadingScreen from '../../../components/LoadingScreen';
 
 class RenderActivity extends React.Component {
 
@@ -14,15 +15,18 @@ class RenderActivity extends React.Component {
         super(props);
         this.state = {
             modalVisible: false,
+            loading: false
         }
     }
 
     onPressModal() {
+        this.setState({loading: true})
         VolunteerApi.getVolunteer(this.props.volunteerEmail)
             .then(volunteer => {
                 let user = volunteer.org[0];
                 let activity = user.activities.find(activity => activity.id == this.props.item._id)
                 this.setState({
+                    loading: false,
                     activity: activity,
                     volunteer: volunteer.org[0]
                 })
@@ -69,7 +73,7 @@ class RenderActivity extends React.Component {
                     <View style={{ flex: 1 }}>
                         <ScrollView>
                             <View>
-
+                                {this.state.loading && <LoadingScreen />}
                                 <Card style={{ marginTop: 50 }}>
                                     <View style={styles.mainView}>
                                         <Text style={styles.titleText}>Heading</Text>
@@ -123,8 +127,11 @@ class RenderActivity extends React.Component {
                                                 if (element.id == this.props.item._id) {
                                                     return element.slotSelected.map((day, index) => {
                                                         return <View key={days[index]} style={styles.dayView}>
-                                                            <Text style={styles.dayText}>{days[index]}</Text>
-                                                            <View style={{ flexDirection: 'column', paddingRight: 100 }}>
+                                                            <View style={{flex: 1}}>
+                                                                <Text style={styles.dayText}>{days[index]}</Text>
+
+                                                            </View>
+                                                            <View style={{ flexDirection: 'column', flex: 1.5 }}>
                                                                 {day.length > 0 ? day.map((slot, id) => {
                                                                     return (
                                                                         <View key={id} style={{ flexDirection: 'row', }}>
@@ -133,7 +140,7 @@ class RenderActivity extends React.Component {
                                                                             <Text style={styles.slotText}>{slot.end}</Text>
                                                                         </View>
                                                                     )
-                                                                }): <Text style={{...styles.slotText,color: "#bab9b8"}}>**No Slots**</Text>}
+                                                                }) : <Text style={{ ...styles.slotText, color: "#bab9b8" }}>**No Slots**</Text>}
                                                             </View>
                                                         </View>
                                                     })
