@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback, TextInput, Text, Button, Modal, Alert, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, Text, Button, TouchableOpacity } from 'react-native';
 
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
@@ -8,6 +8,7 @@ import { VA_DropDown } from '../../../components/VA_DropDown'
 import { VA_Location } from '../../../components/VA_Location'
 import { VA_DatePicker } from '../../../components/VA_DatePicker';
 import * as searchActivity from '../../../store/Actions/searchActivity'
+import * as authActions from '../../../store/Actions/authActions';
 import volunteerApi from '../../../util/volunteerApi'
 import { CurrentLocation } from '../../../util/currentLocation'
 import LoadingScreen from '../../../components/LoadingScreen';
@@ -49,9 +50,11 @@ class Search extends React.Component {
             })
             .catch(err => {
                 console.log(err)
-                Alert.alert(
-                    title = "Something went wrong.. not able to retreive activities :("
-                )
+                this.props.dialogActions.setDialog("Something went wrong.. not able to retreive activities :(")
+                this.props.dialogActions.setDialogVisibility(true)
+                setTimeout(() => {
+                    this.props.dialogActions.setDialogVisibility(false);
+                }, 3000)
             })
 
     }
@@ -207,7 +210,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        activityActions: bindActionCreators(searchActivity, dispatch)
+        activityActions: bindActionCreators(searchActivity, dispatch),
+        dialogActions: bindActionCreators(authActions, dispatch)
     };
 };
 
