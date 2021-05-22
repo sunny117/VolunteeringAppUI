@@ -37,7 +37,6 @@ class Screens extends React.Component {
     }
 
     render() {
-        this.props.isDialogVisible
         if (this.props.isSignedIn)
             return this.props.userType === 'volunteer' ? <View style={{ flex: 1 }}>
                 <Volunteer />

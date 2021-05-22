@@ -2,7 +2,6 @@ import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 
 const Dialog = (props) => {
-    console.log(props)
     return (
         <View style={styles.dialogView} >
             <Text style={styles.dialogText}>{props.value}</Text>
