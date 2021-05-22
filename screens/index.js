@@ -8,6 +8,8 @@ import GoogleApi from '../util/googleApi'
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import * as authActions from '../store/Actions/authActions';
+import { View } from 'react-native';
+import Dialog from '../components/Dialog';
 
 class Screens extends React.Component {
     constructor(props) {
@@ -35,8 +37,16 @@ class Screens extends React.Component {
     }
 
     render() {
+        this.props.isDialogVisible
         if (this.props.isSignedIn)
-            return this.props.userType === 'volunteer' ? <Volunteer /> : <Organization />;
+            return this.props.userType === 'volunteer' ? <View style={{ flex: 1 }}>
+                <Volunteer />
+                {this.props.isDialogVisible && <Dialog value={this.props.dialog} />}
+            </View> :
+                <View style={{ flex: 1 }}>
+                    <Organization />
+                    {this.props.isDialogVisible && <Dialog value={this.props.dialog} />}
+                </View>;
         return <SignIn />;
     };
 };
@@ -44,7 +54,9 @@ class Screens extends React.Component {
 function mapStateToProps(state) {
     return {
         isSignedIn: state.authReducer.isSignedIn,
-        userType: state.authReducer.userType
+        userType: state.authReducer.userType,
+        isDialogVisible: state.authReducer.isDialogVisible,
+        dialog: state.authReducer.dialogValue
     };
 };
 
