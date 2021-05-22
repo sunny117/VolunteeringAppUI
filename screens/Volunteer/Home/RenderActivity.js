@@ -50,14 +50,19 @@ class RenderActivity extends React.Component {
 
     handleClick() {
         let slots = [];
+        let flag = false;
         this.state.slotsAvailable.forEach(value0 => {
             let slot = [];
             value0.forEach(value1 => {
-                if (value1.selected)
+                if (value1.selected) {
+                    flag = true;
                     slot.push({ "start": value1.start, "end": value1.end });
+                }
             })
             slots.push(slot);
         });
+
+        if (flag == false) return;
 
         volunteerApi.joinActivity({
             volunteerId: this.props.volunteerId,
@@ -65,9 +70,6 @@ class RenderActivity extends React.Component {
             slotSelected: slots
         }).then(response => {
             this.props.refreshCallback();
-            this.setState({
-                modalVisible: false
-            })
             console.log("You have been added to the activity successfully!!");
         }).catch(error => {
             console.log("Something went wrong.. not able to join the activity :(");
@@ -99,8 +101,10 @@ class RenderActivity extends React.Component {
             <View key={index}
                 pointerEvents={this.state.daysAvailable[index] ? "auto" : "none"}
                 style={styles.dayView}>
-                <Text style={this.state.daysAvailable[index] ? styles.dayText : { ...styles.dayText, color: "#bab9b8" }}>{this.state.days[index]}</Text>
-                <View>
+                <View style={{ flex: 1 }}>
+                    <Text style={this.state.daysAvailable[index] ? styles.dayText : { ...styles.dayText, color: "#bab9b8" }}>{this.state.days[index]}</Text>
+                </View>
+                <View style={{ flex: 1.5 }}>
                     {slot.length > 0 ? slot.map((item, index1) => {
                         return (
                             <TouchableOpacity key={index1} onPress={() => this.slotSelection(index, index1)}>
@@ -260,18 +264,21 @@ class RenderActivity extends React.Component {
 
                                     </View>
                                     <View>
-                                        {!this.props.item.volunteers.includes(this.props.volunteerId) && this.state.showJoin ?
+                                        {!this.props.item.volunteers.includes(this.props.volunteerId) ?
                                             <VA_Button
-                                                title="Join Activity"
+                                                title="Join"
                                                 onPress={e => {
                                                     this.handleClick();
-                                                    this.setState({
-                                                        showJoin: false
-                                                    })
                                                 }}
                                                 buttonStyle={{ marginVertical: 20 }}
                                                 textStyle={{ fontWeight: "bold", fontSize: 16 }}
-                                            /> : null}
+                                            /> : <VA_Button
+                                                title="Joined"
+                                                onPress={e => {
+
+                                                }}
+                                                buttonStyle={{ marginVertical: 20, backgroundColor: 'grey' }}
+                                                textStyle={{ fontWeight: "bold", fontSize: 16 }} />}
                                     </View>
                                 </Card>
                             </View>
