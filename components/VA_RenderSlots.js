@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, TouchableWithoutFeedback} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, TouchableWithoutFeedback } from 'react-native';
 
 import { VA_Button } from '../components/VA_Button'
 import { connect } from "react-redux";
@@ -148,8 +148,8 @@ class RenderSlots extends React.Component {
                                                     this._resetState();
                                                     if (this.state.startHour && this.state.endHour && this.state.startMinute && this.state.endMinute) {
                                                         this._addSlot(item.name, {
-                                                            start: this.state.startHour + ":" + this.state.startMinute,
-                                                            end: this.state.endHour + ":" + this.state.endMinute
+                                                            start: (this.state.startHour.length == 1 ? "0" + this.state.startHour : this.state.startHour) + ":" + (this.state.startMinute.length == 1 ? "0" + this.state.startMinute : this.state.startMinute),
+                                                            end: (this.state.endHour.length == 1 ? "0" + this.state.endHour : this.state.endHour) + ":" + (this.state.endMinute.length == 1 ? "0" + this.state.endMinute : this.state.endMinute)
                                                         })
                                                     } else {
                                                         this.props.dialogActions.setDialog("All fields were not provided")
