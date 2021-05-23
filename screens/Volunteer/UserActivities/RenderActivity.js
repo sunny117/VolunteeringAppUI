@@ -19,15 +19,17 @@ class RenderActivity extends React.Component {
     }
 
     onPressModal() {
-        VolunteerApi.getVolunteer(this.props.volunteerEmail)
-            .then(volunteer => {
-                let user = volunteer.org[0];
-                let activity = user.activities.find(activity => activity.id == this.props.item._id)
-                this.setState({
-                    activity: activity,
-                    volunteer: volunteer.org[0]
+        !this.state.activity ?
+            VolunteerApi.getVolunteer(this.props.volunteerEmail)
+                .then(volunteer => {
+                    let user = volunteer.org[0];
+                    let activity = user.activities.find(activity => activity.id == this.props.item._id)
+                    this.setState({
+                        activity: activity,
+                        volunteer: volunteer.org[0]
+                    })
                 })
-            })
+            : null
         this.setState({ modalVisible: true })
     };
 

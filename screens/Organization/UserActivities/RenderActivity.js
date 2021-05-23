@@ -16,15 +16,20 @@ class RenderActivity extends React.Component {
         super(props);
         this.state = {
             modalVisible: false,
-            volunteerList: []
+            volunteerList: [],
+            isLoading: false
         }
     }
 
     onPressModal() {
+        this.setState({
+            isLoading: true
+        })
         OrganizationApi.getVolunteers(this.props.item._id)
             .then(list => {
                 this.setState({
-                    volunteerList: list.volunteers
+                    volunteerList: list.volunteers,
+                    isLoading: false
                 })
             })
         this.setState({ modalVisible: true })
@@ -128,7 +133,7 @@ class RenderActivity extends React.Component {
                                         }
                                     </View>
 
-                                    {this.props.Completed && this.state.volunteerList.length > 0 ?
+                                    {this.props.Completed && this.state.volunteerList.length > 0 && !this.state.isLoading?
                                         <View style={styles.mainView}>
                                             <Text style={styles.titleText}>Volunteer Rating</Text>
                                             <View>
