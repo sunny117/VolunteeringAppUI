@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { Rating } from 'react-native-elements'
 import OrganizationApi from '../../../util/organizationApi';
 import styles from '../../../util/activitiesStyle';
+import LoadingScreen from '../../../components/LoadingScreen';
 
 class RenderActivity extends React.Component {
 
@@ -154,6 +155,14 @@ class RenderActivity extends React.Component {
                                                 )}
                                             </View>
                                         </View>
+                                        : this.props.Completed ? 
+                                        <LoadingScreen
+                                            style={{
+                                                position: 'relative',
+                                                elevation: 0, 
+                                                backgroundColor: 'white'
+                                            }}
+                                        /> 
                                         : null}
                                 </Card>
                             </View>
