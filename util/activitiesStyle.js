@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
     },
     imageText: {
+        flexDirection: 'row',
         position: 'absolute',
         padding: 10
     },
