@@ -33,6 +33,20 @@ export function setUserLocation(value){
     };
 };
 
+export function setDialogVisibility(value){
+    return {
+        type: 'SET_DIALOG_VISIBILITY',
+        value
+    };
+};
+
+export function setDialog(value){
+    return {
+        type: 'SET_DIALOG',
+        value
+    };
+};
+
 export function clearAuth(){
     return {
         type: 'CLEAR_AUTH'

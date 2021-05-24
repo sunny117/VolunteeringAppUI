@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback, TextInput, Text, Button, Modal, Alert, TouchableOpacity, TouchableHighlightBase } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, TextInput, Text, Button, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 
 import { connect } from "react-redux";

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Modal, TouchableOpacity, TouchableWithoutFeedback, ScrollView, Button, Alert } from 'react-native';
+import { View, Text, Modal, TouchableOpacity, TouchableWithoutFeedback, ScrollView } from 'react-native';
 
 import Card from '../../../components/Card';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { Rating } from 'react-native-elements'
 import OrganizationApi from '../../../util/organizationApi';
 import styles from '../../../util/activitiesStyle';
+import LoadingScreen from '../../../components/LoadingScreen';
 
 class RenderActivity extends React.Component {
 
@@ -15,15 +16,20 @@ class RenderActivity extends React.Component {
         super(props);
         this.state = {
             modalVisible: false,
-            volunteerList: []
+            volunteerList: [],
+            isLoading: false
         }
     }
 
     onPressModal() {
+        this.setState({
+            isLoading: true
+        })
         OrganizationApi.getVolunteers(this.props.item._id)
             .then(list => {
                 this.setState({
-                    volunteerList: list.volunteers
+                    volunteerList: list.volunteers,
+                    isLoading: false
                 })
             })
         this.setState({ modalVisible: true })
@@ -127,7 +133,7 @@ class RenderActivity extends React.Component {
                                         }
                                     </View>
 
-                                    {this.props.Completed && this.state.volunteerList.length > 0 ?
+                                    {this.props.Completed && this.state.volunteerList.length > 0 && !this.state.isLoading?
                                         <View style={styles.mainView}>
                                             <Text style={styles.titleText}>Volunteer Rating</Text>
                                             <View>
@@ -154,6 +160,14 @@ class RenderActivity extends React.Component {
                                                 )}
                                             </View>
                                         </View>
+                                        : this.props.Completed ? 
+                                        <LoadingScreen
+                                            style={{
+                                                position: 'relative',
+                                                elevation: 0, 
+                                                backgroundColor: 'white'
+                                            }}
+                                        /> 
                                         : null}
                                 </Card>
                             </View>

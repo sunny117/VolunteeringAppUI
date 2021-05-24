@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, TouchableWithoutFeedback, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, TouchableWithoutFeedback } from 'react-native';
 
 import { VA_Button } from '../components/VA_Button'
 import { connect } from "react-redux";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { bindActionCreators } from 'redux';
 import * as createActivity from '../store/Actions/createActivity'
-
+import * as authActions from '../store/Actions/authActions';
 
 const listTimings = slots => {
     let cnt = 0;
@@ -148,10 +148,16 @@ class RenderSlots extends React.Component {
                                                     this._resetState();
                                                     if (this.state.startHour && this.state.endHour && this.state.startMinute && this.state.endMinute) {
                                                         this._addSlot(item.name, {
-                                                            start: this.state.startHour + ":" + this.state.startMinute,
-                                                            end: this.state.endHour + ":" + this.state.endMinute
+                                                            start: (this.state.startHour.length == 1 ? "0" + this.state.startHour : this.state.startHour) + ":" + (this.state.startMinute.length == 1 ? "0" + this.state.startMinute : this.state.startMinute),
+                                                            end: (this.state.endHour.length == 1 ? "0" + this.state.endHour : this.state.endHour) + ":" + (this.state.endMinute.length == 1 ? "0" + this.state.endMinute : this.state.endMinute)
                                                         })
-                                                    } else Alert.alert(title = "all not provided!!")
+                                                    } else {
+                                                        this.props.dialogActions.setDialog("All fields were not provided")
+                                                        this.props.dialogActions.setDialogVisibility(true)
+                                                        setTimeout(() => {
+                                                            this.props.dialogActions.setDialogVisibility(false);
+                                                        }, 3000)
+                                                    }
 
                                                     this._setVisible(item.name, false)
                                                 }}
@@ -266,7 +272,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        activityActions: bindActionCreators(createActivity, dispatch)
+        activityActions: bindActionCreators(createActivity, dispatch),
+        dialogActions: bindActionCreators(authActions, dispatch)
     };
 };
 

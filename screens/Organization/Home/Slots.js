@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback, TextInput, Text, Button, Modal, Alert, TouchableOpacity, TouchableHighlightBase, FlatList } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, Text} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 
 import { connect } from "react-redux";
@@ -8,6 +8,7 @@ import { VA_DatePicker } from '../../../components/VA_DatePicker';
 import { VA_Button } from '../../../components/VA_Button'
 import RenderSlots from '../../../components/VA_RenderSlots';
 import * as createActivity from '../../../store/Actions/createActivity';
+import * as authActions from '../../../store/Actions/authActions';
 import organizationApi from '../../../util/organizationApi';
 import conversions from '../../../util/dateTimeConversions';
 
@@ -70,18 +71,21 @@ class SlotsScreen extends React.Component {
                 }
             )
                 .then(response => {
-                    console.log(response)
                     this._resetState()
-                    Alert.alert(
-                        title = "Successfully created the activity!!"
-                    )
+                    this.props.dialogActions.setDialog("Successfully created the activity")
+                    this.props.dialogActions.setDialogVisibility(true)
+                    setTimeout(()=> {
+                        this.props.dialogActions.setDialogVisibility(false);
+                    }, 3000)
                     this.props.navigation.navigate("Main", { clearLocation: true })
                 })
                 .catch(err => {
                     console.log(err)
-                    Alert.alert(
-                        title = "Something went wrong.. not able to create the activity :("
-                    )
+                    this.props.dialogActions.setDialog("Something went wrong.. not able to create the activity :(")
+                    this.props.dialogActions.setDialogVisibility(true)
+                    setTimeout(()=> {
+                        this.props.dialogActions.setDialogVisibility(false);
+                    }, 3000)
                 })
         } else {
             this.setState({
@@ -204,7 +208,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        activityActions: bindActionCreators(createActivity, dispatch)
+        activityActions: bindActionCreators(createActivity, dispatch),
+        dialogActions: bindActionCreators(authActions, dispatch)
     };
 };
 
