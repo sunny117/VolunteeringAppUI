@@ -61,77 +61,81 @@ class RenderSlots extends React.Component {
                                 <View style={styles.modalContainer}>
                                     <View style={styles.modalView}>
                                         <View style={styles.durationContainer}>
-                                            <Text style={styles.textContainer}>From </Text>
-                                            <TextInput
-                                                value={this.state.startHour}
-                                                keyboardType='number-pad'
-                                                placeholder="hh"
-                                                onChange={({ nativeEvent }) => {
-                                                    let text = nativeEvent.text
-                                                    let size = text.length;
-                                                    if (text.charAt(size - 1) <= 9 && text.charAt(size - 1) >= 0) {
-                                                        if (text <= 23 && text >= 0) {
-                                                            this.setState({ startHour: text })
+                                            <Text style={{...styles.textContainer, flex: 1}}>From </Text>
+                                            <View style={{ flex: 2, ...styles.durationContainer }}>
+                                                <TextInput
+                                                    value={this.state.startHour}
+                                                    keyboardType='number-pad'
+                                                    placeholder="hh"
+                                                    onChange={({ nativeEvent }) => {
+                                                        let text = nativeEvent.text
+                                                        let size = text.length;
+                                                        if (text.charAt(size - 1) <= 9 && text.charAt(size - 1) >= 0) {
+                                                            if (text <= 23 && text >= 0) {
+                                                                this.setState({ startHour: text })
+                                                            }
                                                         }
-                                                    }
-                                                }}
-                                                maxLength={2}
-                                                style={styles.inputContainer}
-                                            />
-                                            <Text style={styles.textContainer}>:</Text>
-                                            <TextInput
-                                                value={this.state.startMinute}
-                                                keyboardType='number-pad'
-                                                placeholder="mm"
-                                                onChange={({ nativeEvent }) => {
-                                                    let text = nativeEvent.text
-                                                    let size = text.length;
-                                                    if (text.charAt(size - 1) <= 9 && text.charAt(size - 1) >= 0) {
-                                                        if (text <= 59 && text >= 0) {
-                                                            this.setState({ startMinute: text })
+                                                    }}
+                                                    maxLength={2}
+                                                    style={styles.inputContainer}
+                                                />
+                                                <Text style={styles.textContainer}>:</Text>
+                                                <TextInput
+                                                    value={this.state.startMinute}
+                                                    keyboardType='number-pad'
+                                                    placeholder="mm"
+                                                    onChange={({ nativeEvent }) => {
+                                                        let text = nativeEvent.text
+                                                        let size = text.length;
+                                                        if (text.charAt(size - 1) <= 9 && text.charAt(size - 1) >= 0) {
+                                                            if (text <= 59 && text >= 0) {
+                                                                this.setState({ startMinute: text })
+                                                            }
                                                         }
-                                                    }
-                                                }}
-                                                maxLength={2}
-                                                style={styles.inputContainer}
-                                            />
+                                                    }}
+                                                    maxLength={2}
+                                                    style={styles.inputContainer}
+                                                />
+                                            </View>
                                         </View>
 
                                         <View style={styles.durationContainer}>
-                                            <Text style={styles.textContainer}>To </Text>
-                                            <TextInput
-                                                value={this.state.endHour}
-                                                keyboardType='number-pad'
-                                                placeholder="hh"
-                                                onChange={({ nativeEvent }) => {
-                                                    let text = nativeEvent.text
-                                                    let size = text.length;
-                                                    if (text.charAt(size - 1) <= 9 && text.charAt(size - 1) >= 0) {
-                                                        if (text <= 23 && text >= 0) {
-                                                            this.setState({ endHour: text })
+                                            <Text style={{ ...styles.textContainer, flex: 1 }}>To </Text>
+                                            <View style={{ flex: 2, ...styles.durationContainer}}>
+                                                <TextInput
+                                                    value={this.state.endHour}
+                                                    keyboardType='number-pad'
+                                                    placeholder="hh"
+                                                    onChange={({ nativeEvent }) => {
+                                                        let text = nativeEvent.text
+                                                        let size = text.length;
+                                                        if (text.charAt(size - 1) <= 9 && text.charAt(size - 1) >= 0) {
+                                                            if (text <= 23 && text >= 0) {
+                                                                this.setState({ endHour: text })
+                                                            }
                                                         }
-                                                    }
-                                                }}
-                                                maxLength={2}
-                                                style={styles.inputContainer}
-                                            />
-                                            <Text style={styles.textContainer}>:</Text>
-                                            <TextInput
-                                                value={this.state.endMinute}
-                                                keyboardType='number-pad'
-                                                placeholder="mm"
-                                                onChange={({ nativeEvent }) => {
-                                                    let text = nativeEvent.text
-                                                    let size = text.length;
-                                                    if (text.charAt(size - 1) <= 9 && text.charAt(size - 1) >= 0) {
-                                                        if (text <= 59 && text >= 0) {
-                                                            this.setState({ endMinute: text })
+                                                    }}
+                                                    maxLength={2}
+                                                    style={styles.inputContainer}
+                                                />
+                                                <Text style={styles.textContainer}>:</Text>
+                                                <TextInput
+                                                    value={this.state.endMinute}
+                                                    keyboardType='number-pad'
+                                                    placeholder="mm"
+                                                    onChange={({ nativeEvent }) => {
+                                                        let text = nativeEvent.text
+                                                        let size = text.length;
+                                                        if (text.charAt(size - 1) <= 9 && text.charAt(size - 1) >= 0) {
+                                                            if (text <= 59 && text >= 0) {
+                                                                this.setState({ endMinute: text })
+                                                            }
                                                         }
-                                                    }
-                                                }}
-                                                maxLength={2}
-                                                style={styles.inputContainer}
-                                            />
+                                                    }}
+                                                    maxLength={2}
+                                                    style={styles.inputContainer}
+                                                />
+                                            </View>
                                         </View>
                                         <View style={{ ...styles.durationContainer, justifyContent: 'space-between', marginTop: 40 }}>
                                             <VA_Button
@@ -220,10 +224,11 @@ const styles = StyleSheet.create({
     modalView: {
         margin: 20,
         marginHorizontal: 40,
-        paddingHorizontal: 30,
-        paddingVertical: 30,
+        padding: 40,
         backgroundColor: "white",
         borderRadius: 10,
+        borderEndColor: 'black',
+        borderWidth: 1
     },
 
     durationContainer: {
