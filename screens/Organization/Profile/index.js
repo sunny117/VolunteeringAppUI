@@ -15,6 +15,7 @@ import * as createActivity from '../../../store/Actions/createActivity';
 import * as orgActivityActions from '../../../store/Actions/orgActivityActions';
 import * as searchActivity from '../../../store/Actions/searchActivity';
 import * as volActivityActions from '../../../store/Actions/volActivityActions';
+import LinearGrad from '../../../components/LinearGrad';
 
 class Profile extends React.Component {
     constructor(props) {
@@ -38,6 +39,7 @@ class Profile extends React.Component {
     render() {
         return (
             <View style={styles.container}>
+                <LinearGrad isOrg={true} />
                 <View style={styles.header}>
                     {this.props.userPhotoUrl ?
                         <Image style={styles.avatar} source={{ uri: this.props.userPhotoUrl }} />
@@ -66,9 +68,12 @@ class Profile extends React.Component {
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1
+    },
     header: {
         backgroundColor: "#00BFFF",
-        height: 200,
+        height: 170,
     },
     menu: {
         marginTop: 50,
@@ -86,7 +91,7 @@ const styles = StyleSheet.create({
         borderColor: "white",
         marginBottom: 10,
         alignSelf: 'center',
-        marginTop: 130
+        marginTop: 100
     },
     body: {
         marginTop: 40,

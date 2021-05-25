@@ -10,6 +10,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import * as searchActivity from '../../../store/Actions/searchActivity';
 import * as authActions from '../../../store/Actions/authActions';
 import volunteerApi from '../../../util/volunteerApi'
+import LinearGrad from '../../../components/LinearGrad';
 
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
@@ -70,6 +71,7 @@ class Results extends React.Component {
         return (
             <TouchableWithoutFeedback>
                 <View style={{ flex: 1 }}>
+                    <LinearGrad />
                     {!this.props.activityState.activities || this.props.activityState.activities.length === 0 ?
                         this.noResults()
                         :

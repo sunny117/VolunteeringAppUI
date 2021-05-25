@@ -17,6 +17,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview'
 import Icon from 'react-native-vector-icons/Ionicons';
 import UserActivities from './UserActivities';
 import LoadingScreen from '../../components/LoadingScreen';
+import LinearGrad from '../../components/LinearGrad';
 
 class Volunteer extends React.Component {
     constructor(props) {
@@ -75,7 +76,8 @@ class Volunteer extends React.Component {
     render() {
         if (this.state.newUser == 1) {
             return (
-                <View style={{ backgroundColor: 'grey', flex: 1 }}>
+                <View style={{ flex: 1 }}>
+                    <LinearGrad />
                     {this.state.loading && <LoadingScreen />}
                     <KeyboardAwareScrollView>
                         <View onStartShouldSetResponder={() => true}>

@@ -12,6 +12,7 @@ import * as authActions from '../../../store/Actions/authActions';
 import volunteerApi from '../../../util/volunteerApi'
 import { CurrentLocation } from '../../../util/currentLocation'
 import LoadingScreen from '../../../components/LoadingScreen';
+import LinearGrad from '../../../components/LinearGrad';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -83,6 +84,7 @@ class Search extends React.Component {
         return (
             <TouchableWithoutFeedback>
                 <View style={styles.mainContainer}>
+                    <LinearGrad />
                     {this.props.isLoading && <LoadingScreen />}
                     <View style={styles.header}>
                         <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#2196F3' }}> Find an Activity </Text>

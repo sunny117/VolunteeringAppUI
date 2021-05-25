@@ -2,9 +2,11 @@ import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 
 const LinearGrad = (props) => {
+    let org = ['#48ADF1','#C68DEA','#FDCBFC','#8AF7E4',  ];
+    let vol = ['#35212A','#3B55CE','#FF61BE','#FFDEF3',  ];
     return (
         <LinearGradient
-            colors={props.colors}
+            colors={props.isOrg ? org : vol}
             style={{
                 top: 0,
                 bottom: 0,

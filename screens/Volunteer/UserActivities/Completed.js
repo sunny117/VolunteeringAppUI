@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import * as authActions from '../../../store/Actions/authActions';
 import LoadingScreen from '../../../components/LoadingScreen';
+import LinearGrad from '../../../components/LinearGrad';
 
 class Completed extends React.Component {
     constructor(props) {
@@ -23,13 +24,14 @@ class Completed extends React.Component {
 
     renderActivity = ({ item }) => {
         return (
-            <RenderActivity item={item} Completed={true}/>
+            <RenderActivity item={item} Completed={true} />
         );
     };
 
     render() {
         return (
             <View style={{ flex: 1 }}>
+                <LinearGrad />
                 {this.props.isLoading && <LoadingScreen />}
                 {this.props.completedActivities === null || this.props.completedActivities == undefined || this.props.completedActivities.length === 0 ?
                     this.noResults()

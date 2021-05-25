@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback, Text} from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, Text } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 
 import { connect } from "react-redux";
@@ -11,6 +11,7 @@ import * as createActivity from '../../../store/Actions/createActivity';
 import * as authActions from '../../../store/Actions/authActions';
 import organizationApi from '../../../util/organizationApi';
 import conversions from '../../../util/dateTimeConversions';
+import LinearGrad from '../../../components/LinearGrad';
 
 class SlotsScreen extends React.Component {
 
@@ -38,7 +39,7 @@ class SlotsScreen extends React.Component {
 
     _resetAvailability = () => {
         let i = 0;
-        for(i; i < 7; i++) this._setAvailability(i, false);
+        for (i; i < 7; i++) this._setAvailability(i, false);
     }
 
     _resetState = value => { this.props.activityActions.resetState() }
@@ -74,7 +75,7 @@ class SlotsScreen extends React.Component {
                     this._resetState()
                     this.props.dialogActions.setDialog("Successfully created the activity")
                     this.props.dialogActions.setDialogVisibility(true)
-                    setTimeout(()=> {
+                    setTimeout(() => {
                         this.props.dialogActions.setDialogVisibility(false);
                     }, 3000)
                     this.props.navigation.navigate("Main", { clearLocation: true })
@@ -83,7 +84,7 @@ class SlotsScreen extends React.Component {
                     console.log(err)
                     this.props.dialogActions.setDialog("Something went wrong.. not able to create the activity :(")
                     this.props.dialogActions.setDialogVisibility(true)
-                    setTimeout(()=> {
+                    setTimeout(() => {
                         this.props.dialogActions.setDialogVisibility(false);
                     }, 3000)
                 })
@@ -97,60 +98,63 @@ class SlotsScreen extends React.Component {
     render() {
         return (
             <TouchableWithoutFeedback>
-                <KeyboardAwareScrollView>
-                    <View style={styles.mainContainer} onStartShouldSetResponder={() => true}>
-                        <VA_Button
-                            title="back"
-                            onPress={() => this.props.navigation.navigate("Main")}
-                            buttonStyle={{ alignSelf: "flex-start", marginLeft: 10 }}
-                            textStyle={{ fontSize: 16, fontWeight: "600" }}
-                        />
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.textContainer}>Duration * </Text>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <VA_DatePicker
-                                    date={this.props.activityState.startDate}
-                                    onDateChange={value => {
-                                        this._setStartDate(value);
-                                        let x = this.props.activityState.startDate, y = this.props.activityState.endDate;
-                                        if (x && y) {
-                                            let result = conversions.DayChecker(x, y);
-                                            this._resetAvailability();
-                                            result.forEach(x => this._setAvailability(x, true));
-                                        }
-                                    }}
-                                    placeholder="Start Date"
-                                    minDate={new Date()}
-                                    maxDate={this.props.activityState.endDate ? this.props.activityState.endDate : undefined}
-                                />
-                                <Text style={{ fontWeight: 'bold', fontSize: 20 }}>-</Text>
-                                <VA_DatePicker
-                                    date={this.props.activityState.endDate}
-                                    onDateChange={value => {
-                                        this._setEndDate(value);
-                                        let x = this.props.activityState.startDate, y = this.props.activityState.endDate;
-                                        if (x && y) {
-                                            let result = conversions.DayChecker(x, y);
-                                            this._resetAvailability();
-                                            result.forEach(x => this._setAvailability(x, true));
-                                        }
-                                    }}
-                                    placeholder="End Date"
-                                    minDate={this.props.activityState.startDate ? this.props.activityState.startDate : new Date()}
-                                />
+                <View style={{ flex: 1 }}>
+                    <LinearGrad isOrg={true} />
+                    <KeyboardAwareScrollView>
+                        <View style={styles.mainContainer} onStartShouldSetResponder={() => true}>
+                            <VA_Button
+                                title="back"
+                                onPress={() => this.props.navigation.navigate("Main")}
+                                buttonStyle={{ alignSelf: "flex-start", marginLeft: 10 }}
+                                textStyle={{ fontSize: 16, fontWeight: "600" }}
+                            />
+                            <View style={styles.inputContainer}>
+                                <Text style={styles.textContainer}>Duration * </Text>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <VA_DatePicker
+                                        date={this.props.activityState.startDate}
+                                        onDateChange={value => {
+                                            this._setStartDate(value);
+                                            let x = this.props.activityState.startDate, y = this.props.activityState.endDate;
+                                            if (x && y) {
+                                                let result = conversions.DayChecker(x, y);
+                                                this._resetAvailability();
+                                                result.forEach(x => this._setAvailability(x, true));
+                                            }
+                                        }}
+                                        placeholder="Start Date"
+                                        minDate={new Date()}
+                                        maxDate={this.props.activityState.endDate ? this.props.activityState.endDate : undefined}
+                                    />
+                                    <Text style={{ fontWeight: 'bold', fontSize: 20 }}>-</Text>
+                                    <VA_DatePicker
+                                        date={this.props.activityState.endDate}
+                                        onDateChange={value => {
+                                            this._setEndDate(value);
+                                            let x = this.props.activityState.startDate, y = this.props.activityState.endDate;
+                                            if (x && y) {
+                                                let result = conversions.DayChecker(x, y);
+                                                this._resetAvailability();
+                                                result.forEach(x => this._setAvailability(x, true));
+                                            }
+                                        }}
+                                        placeholder="End Date"
+                                        minDate={this.props.activityState.startDate ? this.props.activityState.startDate : new Date()}
+                                    />
+                                </View>
                             </View>
+
+                            <View style={{ ...styles.inputContainer, marginTop: 24, paddingLeft: 0, paddingRight: 0 }}>
+                                <Text style={{ ...styles.textContainer, padding: 12 }}>Add Slots </Text>
+                                <RenderSlots />
+                            </View>
+
+
+                            {this.state.warning ? <Text style={{ marginLeft: 14 }}>Please fill all Duration fields and atleast one slot</Text> : null}
+                            <VA_Button title="Confirm" buttonStyle={styles.button} onPress={() => this._handleClick()} />
                         </View>
-
-                        <View style={{ ...styles.inputContainer, marginTop: 24, paddingLeft: 0, paddingRight: 0 }}>
-                            <Text style={{ ...styles.textContainer, padding: 12 }}>Add Slots </Text>
-                            <RenderSlots />
-                        </View>
-
-
-                        {this.state.warning ? <Text style={{ marginLeft: 14 }}>Please fill all Duration fields and atleast one slot</Text> : null}
-                        <VA_Button title="Confirm" buttonStyle={styles.button} onPress={() => this._handleClick()} />
-                    </View>
-                </KeyboardAwareScrollView>
+                    </KeyboardAwareScrollView>
+                </View>
             </TouchableWithoutFeedback>
         );
     };

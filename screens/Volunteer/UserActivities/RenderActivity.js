@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import VolunteerApi from '../../../util/volunteerApi';
 import styles from '../../../util/activitiesStyle';
 import LoadingScreen from '../../../components/LoadingScreen';
+import LinearGrad from '../../../components/LinearGrad';
 
 class RenderActivity extends React.Component {
 
@@ -70,6 +71,7 @@ class RenderActivity extends React.Component {
                 </TouchableWithoutFeedback>
                 <Modal visible={this.state.modalVisible} onRequestClose={() => this.setState({ modalVisible: false })}>
                     <View style={{ flex: 1 }}>
+                        <LinearGrad />
                         <ScrollView>
                             <View>
                                 <Card style={{ marginTop: 50 }}>
@@ -158,7 +160,7 @@ class RenderActivity extends React.Component {
                         </ScrollView>
                         <View style={styles.imageText}>
                             <TouchableOpacity onPress={() => this.setState({ modalVisible: false })} >
-                                <Icon name='arrow-back-outline' size={30} color='blue' />
+                                <Icon name='arrow-back-outline' size={30} color='white' />
                             </TouchableOpacity>
                         </View>
                     </View>

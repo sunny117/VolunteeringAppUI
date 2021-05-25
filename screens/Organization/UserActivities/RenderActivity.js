@@ -11,6 +11,7 @@ import styles from '../../../util/activitiesStyle';
 import LoadingScreen from '../../../components/LoadingScreen';
 import Share from 'react-native-share';
 import ViewShot from "react-native-view-shot";
+import LinearGrad from '../../../components/LinearGrad';
 
 class RenderActivity extends React.Component {
 
@@ -90,6 +91,7 @@ class RenderActivity extends React.Component {
                 </TouchableWithoutFeedback>
                 <Modal visible={this.state.modalVisible} onRequestClose={() => this.setState({ modalVisible: false })}>
                     <View style={{ flex: 1 }}>
+                        <LinearGrad isOrg={true} />
                         <ScrollView>
                             <View>
                                 <ViewShot onCapture={this.onCapture} options={{ result: "data-uri" }} captureMode="mount">
@@ -195,12 +197,12 @@ class RenderActivity extends React.Component {
                         <View style={styles.imageText}>
                             <View>
                                 <TouchableOpacity onPress={() => this.setState({ modalVisible: false })} >
-                                    <Icon name='arrow-back-outline' size={30} color='blue' />
+                                    <Icon name='arrow-back-outline' size={30} color='white' />
                                 </TouchableOpacity>
                             </View>
                             <View style={{ flex: 1, alignItems: 'flex-end' }}>
                                 <TouchableOpacity onPress={() => this.captureView()} >
-                                    <Icon name='share-social-outline' size={30} color='blue' />
+                                    <Icon name='share-social-outline' size={30} color='white' />
                                 </TouchableOpacity>
                             </View>
                         </View>
