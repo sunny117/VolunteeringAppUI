@@ -31,7 +31,7 @@ class Search extends React.Component {
 
     _setEndDate = value => { this.props.activityActions.setEndDate(value) }
 
-    _handleClick = e => {
+    _handleClick = () => {
 
         volunteerApi.searchActivity(
             {
@@ -87,7 +87,7 @@ class Search extends React.Component {
                     <LinearGrad />
                     {this.props.isLoading && <LoadingScreen />}
                     <View style={styles.header}>
-                        <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#2196F3' }}> Find an Activity </Text>
+                        <Text style={{ fontSize: 25, fontWeight: 'bold', color: 'white' }}> Find an Activity </Text>
                     </View>
                     <View style={styles.inputContainer}>
                         <Text style={styles.textContainer}>Type * </Text>
@@ -141,16 +141,10 @@ class Search extends React.Component {
                             />
                         </View>
                     </View>
-
-                    <View
-                        style={styles.button}
-                    >
-                        <Button
-                            title="Search"
-                            onPress={e => {
-                                this._handleClick(e)
-                            }}
-                        />
+                    <View style={styles.button}>
+                        <TouchableOpacity onPress={() => this._handleClick()}>
+                            <Icon name='checkmark-done-outline' size={45} color='white' />
+                        </TouchableOpacity>
                     </View>
                 </View>
             </TouchableWithoutFeedback>
@@ -186,9 +180,10 @@ const styles = StyleSheet.create({
     },
 
     textContainer: {
-        fontSize: 16,
+        fontSize: 12,
         fontWeight: 'bold',
         paddingTop: 5,
+        color: '#48ADF1'
     },
 
     dropDown: {

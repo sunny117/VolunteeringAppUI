@@ -85,11 +85,10 @@ class Results extends React.Component {
                     }
                     <TouchableOpacity onPress={() => this.onPressFilters()} style={{ justifyContent: 'flex-end' }}>
                         <View style={{ backgroundColor: 'white', justifyContent: 'center', padding: 10, flexDirection: 'row' }} >
-                            <Icon name="filter" size={20} color={'blue'} />
-                            <Text style={{ color: 'blue' }}> Go back to Search</Text>
+                            <Icon name="filter" size={20} color={'#48ADF1'} />
+                            <Text style={{ color: '#48ADF1' }}> Go back to Search</Text>
                         </View>
                     </TouchableOpacity>
-
                 </View>
             </TouchableWithoutFeedback>
         );
