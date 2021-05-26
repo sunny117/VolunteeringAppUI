@@ -150,7 +150,7 @@ class MainScreen extends React.Component {
 
                             <View style={styles.goContainer}>
                                 <TouchableOpacity onPress={() => this._handleClick()}>
-                                    
+
                                     <Icon name='return-down-forward-outline' size={45} color='white' />
                                 </TouchableOpacity>
                             </View>
@@ -190,9 +190,10 @@ const styles = StyleSheet.create({
     },
 
     textContainer: {
-        fontSize: 16,
+        fontSize: 12,
         fontWeight: 'bold',
         paddingTop: 5,
+        color: '#48ADF1'
     },
 
     dropDown: {

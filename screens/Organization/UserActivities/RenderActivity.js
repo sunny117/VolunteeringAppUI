@@ -95,7 +95,7 @@ class RenderActivity extends React.Component {
                         <ScrollView>
                             <View>
                                 <ViewShot onCapture={this.onCapture} options={{ result: "data-uri" }} captureMode="mount">
-                                    <Card style={{ marginTop: 50 }}>
+                                    <Card style={{ marginTop: 55, }}>
                                         <View style={styles.mainView}>
                                             <Text style={styles.titleText}>Heading</Text>
                                             <Text style={styles.valueText}>{this.props.item.heading}</Text>
@@ -161,10 +161,10 @@ class RenderActivity extends React.Component {
                                                         (element, index) => {
                                                             let value = element.activities.find(temp => temp.id == this.props.item._id);
                                                             return (
-                                                                <View key={element._id} style={index == 0 ? styles.ratingView : { ...styles.ratingView, borderTopWidth: 1, borderColor: 'black' }}>
-                                                                    <Text style={{ fontSize: 18, fontWeight: "normal" }}>{element.name}</Text>
+                                                                <View key={element._id} style={index == 0 ? styles.ratingView : { ...styles.ratingView, borderTopWidth: 1, borderColor: 'pink' }}>
+                                                                    <Text style={{ fontSize: 12, fontStyle:'italic' }}>{element.name}</Text>
                                                                     <Rating
-                                                                        imageSize={25}
+                                                                        imageSize={20}
                                                                         startingValue={value.rating}
                                                                         onFinishRating={rating => {
                                                                             OrganizationApi.rateVolunteer({
@@ -180,7 +180,7 @@ class RenderActivity extends React.Component {
                                                     )}
                                                 </View>
                                             </View>
-                                            : this.props.Completed ?
+                                            : this.props.Completed && this.state.volunteerList.length > 0 ?
                                                 <LoadingScreen
                                                     style={{
                                                         position: 'relative',

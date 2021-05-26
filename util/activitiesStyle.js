@@ -6,12 +6,12 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     titleText: {
-        color: "blue",
-        fontSize: 16,
+        color: "#48ADF1",
+        fontSize: 10,
         fontWeight: 'bold'
     },
     valueText: {
-        fontSize: 18
+        fontSize: 15
     },
     dayView: {
         flexDirection: 'row',
@@ -20,11 +20,11 @@ const styles = StyleSheet.create({
         marginVertical: 5
     },
     dayText: {
-        fontSize: 18,
+        fontSize: 12,
         fontWeight: "700"
     },
     slotText: {
-        fontSize: 18,
+        fontSize: 15,
         paddingHorizontal: 5,
     },
     imageText: {

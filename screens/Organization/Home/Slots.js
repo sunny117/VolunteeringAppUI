@@ -151,10 +151,8 @@ class SlotsScreen extends React.Component {
 
 
                             {this.state.warning ? <Text style={{ marginLeft: 14 }}>Please fill all Duration fields and atleast one slot</Text> : null}
-                            {/* <VA_Button title="Confirm" buttonStyle={styles.button} onPress={() => this._handleClick()} /> */}
                             <View style={styles.button}>
                                 <TouchableOpacity onPress={() => this._handleClick()}>
-                                    
                                     <Icon name='checkmark-done-outline' size={45} color='white' />
                                 </TouchableOpacity>
                             </View>
@@ -197,6 +195,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontWeight: 'bold',
         paddingTop: 5,
+        color: '#48ADF1'
     },
 
     button: {
