@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback, Text } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, Text, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 
 import { connect } from "react-redux";
@@ -12,6 +12,7 @@ import * as authActions from '../../../store/Actions/authActions';
 import organizationApi from '../../../util/organizationApi';
 import conversions from '../../../util/dateTimeConversions';
 import LinearGrad from '../../../components/LinearGrad';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 class SlotsScreen extends React.Component {
 
@@ -102,12 +103,11 @@ class SlotsScreen extends React.Component {
                     <LinearGrad isOrg={true} />
                     <KeyboardAwareScrollView>
                         <View style={styles.mainContainer} onStartShouldSetResponder={() => true}>
-                            <VA_Button
-                                title="back"
-                                onPress={() => this.props.navigation.navigate("Main")}
-                                buttonStyle={{ alignSelf: "flex-start", marginLeft: 10 }}
-                                textStyle={{ fontSize: 16, fontWeight: "600" }}
-                            />
+                            <View style={{ alignSelf: "flex-start", marginLeft: 10, marginTop: 10 }}>
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate("Main")}>
+                                    <Icon name='return-up-back-outline' size={35} color='white' />
+                                </TouchableOpacity>
+                            </View>
                             <View style={styles.inputContainer}>
                                 <Text style={styles.textContainer}>Duration * </Text>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -144,14 +144,20 @@ class SlotsScreen extends React.Component {
                                 </View>
                             </View>
 
-                            <View style={{ ...styles.inputContainer, marginTop: 24, paddingLeft: 0, paddingRight: 0 }}>
+                            <View style={{ ...styles.inputContainer, marginTop: 20, paddingLeft: 0, paddingRight: 0 }}>
                                 <Text style={{ ...styles.textContainer, padding: 12 }}>Add Slots </Text>
                                 <RenderSlots />
                             </View>
 
 
                             {this.state.warning ? <Text style={{ marginLeft: 14 }}>Please fill all Duration fields and atleast one slot</Text> : null}
-                            <VA_Button title="Confirm" buttonStyle={styles.button} onPress={() => this._handleClick()} />
+                            {/* <VA_Button title="Confirm" buttonStyle={styles.button} onPress={() => this._handleClick()} /> */}
+                            <View style={styles.button}>
+                                <TouchableOpacity onPress={() => this._handleClick()}>
+                                    
+                                    <Icon name='checkmark-done-outline' size={45} color='white' />
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </KeyboardAwareScrollView>
                 </View>
@@ -164,9 +170,6 @@ const styles = StyleSheet.create({
 
     mainContainer: {
         flex: 1,
-        paddingTop: 20,
-        paddingBottom: 40,
-        // opacity:opacValue
     },
 
     header: {
@@ -191,7 +194,7 @@ const styles = StyleSheet.create({
     },
 
     textContainer: {
-        fontSize: 16,
+        fontSize: 12,
         fontWeight: 'bold',
         paddingTop: 5,
     },
@@ -199,7 +202,7 @@ const styles = StyleSheet.create({
     button: {
         flexDirection: 'row',
         justifyContent: 'center',
-        marginTop: 36
+        margin: 20
     }
 });
 

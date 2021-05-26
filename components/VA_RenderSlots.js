@@ -201,8 +201,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        padding: 16,
-        paddingHorizontal: 26,
+        padding: 5,
+        paddingHorizontal: 10,
         borderBottomWidth: 1,
         borderColor: '#D2CECD'
     },
@@ -211,8 +211,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        paddingHorizontal: 26,
-        padding: 16,
+        paddingHorizontal: 10,
+        padding: 5,
     },
 
     modalContainer: {
@@ -223,12 +223,10 @@ const styles = StyleSheet.create({
 
     modalView: {
         margin: 20,
-        marginHorizontal: 40,
-        padding: 40,
+        marginHorizontal: 50,
+        padding: 10,
         backgroundColor: "white",
         borderRadius: 10,
-        borderEndColor: 'black',
-        borderWidth: 1
     },
 
     durationContainer: {

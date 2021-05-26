@@ -150,7 +150,8 @@ class MainScreen extends React.Component {
 
                             <View style={styles.goContainer}>
                                 <TouchableOpacity onPress={() => this._handleClick()}>
-                                    <Text style={styles.goText}>Next</Text>
+                                    
+                                    <Icon name='return-down-forward-outline' size={45} color='white' />
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -200,19 +201,9 @@ const styles = StyleSheet.create({
         height: 60
     },
     goContainer: {
-        alignItems: 'center',
-        margin: 10,
-        backgroundColor: 'white',
-        borderRadius: 30,
-        elevation: 8,
-        marginLeft: '40%',
-        marginRight: '40%'
-    },
-    goText: {
-        color: 'black',
-        padding: 10,
-        fontWeight: 'bold',
-        fontSize: 20
+        flexDirection: 'row',
+        justifyContent: 'center',
+        margin: 20
     },
 });
 
