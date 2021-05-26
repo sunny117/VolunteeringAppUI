@@ -16,6 +16,7 @@ import * as orgActivityActions from '../../../store/Actions/orgActivityActions';
 import * as searchActivity from '../../../store/Actions/searchActivity';
 import * as volActivityActions from '../../../store/Actions/volActivityActions';
 import LinearGrad from '../../../components/LinearGrad';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 class Profile extends React.Component {
     constructor(props) {
@@ -57,9 +58,12 @@ class Profile extends React.Component {
                         <Text style={styles.info}>Description : {this.props.userDescription}</Text>
                         <Text style={styles.info}>Phone Number : {this.props.userContactNumber}</Text>
                         <Text style={styles.info}>Address : {this.props.userLocation}</Text>
-                        <TouchableOpacity style={styles.buttonContainer} onPress={() => this.signOut()}>
-                            <Text style={{ color: 'white' }}>SignOut</Text>
-                        </TouchableOpacity>
+                        <View style={{ alignItems: 'center', margin: 30 }}>
+                            <TouchableOpacity onPress={() => this.signOut()} style={{ alignItems: 'center' }}>
+                                <Icon name='log-out-outline' size={45} color='white' />
+                                <Text style={{ color: 'white' }}>Signout</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
             </View>
@@ -103,19 +107,19 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: 28,
-        color: "#696969",
+        color: "white",
         fontWeight: "600"
     },
     info: {
         fontSize: 16,
-        color: "#00BFFF",
+        color: "white",
         marginTop: 15,
         alignSelf: 'flex-start',
         fontWeight: 'bold'
     },
     description: {
         fontSize: 16,
-        color: "#696969",
+        color: "white",
         marginTop: 10,
         textAlign: 'center'
     },
@@ -128,7 +132,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         width: 100,
         borderRadius: 30,
-        backgroundColor: "#00BFFF",
+        backgroundColor: "white",
     },
 });
 
