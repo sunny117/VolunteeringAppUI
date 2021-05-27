@@ -58,7 +58,7 @@ class Profile extends React.Component {
                         <Text style={styles.info}>Email : {this.props.userEmail}</Text>
                         <Text style={styles.info}>Phone Number : {this.props.userContactNumber}</Text>
                         <Text style={styles.info}>Address : {this.props.userLocation}</Text>
-                        <Text style={styles.info}>Avg. Rating : {this.props.userRating == -1 ? <Text> UnRated </Text> : this.props.userRating}</Text>
+                        <Text style={styles.info}>Avg. Rating : {this.props.userRating == -1 ? <Text> UnRated </Text> : this.props.userRating.toFixed(2)}</Text>
                     </View>
                 </View>
                 <View style={{ alignItems: 'center', margin: 30 }}>
