@@ -37,9 +37,9 @@ class MainScreen extends React.Component {
         if (
             this.props.activityState.heading
             && this.props.activityState.type
-            // && this.props.activityState.address
-            // && this.props.activityState.longitude
-            // && this.props.activityState.latitude
+            && this.props.activityState.address
+            && this.props.activityState.longitude
+            && this.props.activityState.latitude
         ) {
             this.setState({
                 warning: false
@@ -83,79 +83,77 @@ class MainScreen extends React.Component {
                 <View style={{ flex: 1 }}>
                     <LinearGrad isOrg={true} />
                     {this.props.isLoading && <LoadingScreen />}
-                    <KeyboardAwareScrollView>
-                        <View style={styles.mainContainer} onStartShouldSetResponder={() => true}>
-                            <View style={styles.header}>
-                                <Text style={{ color: 'white', fontSize: 25, fontWeight: 'bold' }}> Create an Activity </Text>
-                            </View>
-                            <View style={styles.inputContainer}>
-                                <Text style={styles.textContainer}>Heading * </Text>
-                                <TextInput
-                                    value={this.props.activityState.heading}
-                                    maxLength={64}
-                                    placeholder="Enter Heading"
-                                    placeholderTextColor="#a6a6a6"
-                                    onChangeText={value => this._setHeading(value)}
-                                    style={{ padding: 0, margin: 10, fontSize: 16 }}
-                                />
-                            </View>
+                    <View style={styles.mainContainer} onStartShouldSetResponder={() => true}>
+                        <View style={styles.header}>
+                            <Text style={{ color: 'white', fontSize: 25, fontWeight: 'bold' }}> Create an Activity </Text>
+                        </View>
+                        <View style={styles.inputContainer}>
+                            <Text style={styles.textContainer}>Heading * </Text>
+                            <TextInput
+                                value={this.props.activityState.heading}
+                                maxLength={64}
+                                placeholder="Enter Heading"
+                                placeholderTextColor="#a6a6a6"
+                                onChangeText={value => this._setHeading(value)}
+                                style={{ padding: 0, margin: 10, fontSize: 16 }}
+                            />
+                        </View>
 
-                            <View style={styles.inputContainer}>
-                                <Text style={styles.textContainer}>Type * </Text>
-                                <VA_DropDown
-                                    selectedValue={this.props.activityState.type}
-                                    onValueChange={(itemValue, itemPosition) => {
-                                        this._setType(itemValue)
+                        <View style={styles.inputContainer}>
+                            <Text style={styles.textContainer}>Type * </Text>
+                            <VA_DropDown
+                                selectedValue={this.props.activityState.type}
+                                onValueChange={(itemValue, itemPosition) => {
+                                    this._setType(itemValue)
+                                }}
+                            />
+                        </View>
+
+                        <View style={styles.inputContainer}>
+                            <Text style={styles.textContainer}> Location * </Text>
+                            <View style={{
+                                margin: 5,
+                                flexDirection: 'row',
+                                justifyContent: 'space-between'
+                            }}>
+
+                                <VA_Location
+                                    onSelect={(address, longitude, latitude) => {
+                                        this._setLocation(address, longitude, latitude)
                                     }}
+                                    childRef={this.locRef}
                                 />
-                            </View>
-
-                            <View style={styles.inputContainer}>
-                                <Text style={styles.textContainer}> Location * </Text>
-                                <View style={{
-                                    margin: 5,
-                                    flexDirection: 'row',
-                                    justifyContent: 'space-between'
-                                }}>
-
-                                    <VA_Location
-                                        onSelect={(address, longitude, latitude) => {
-                                            this._setLocation(address, longitude, latitude)
-                                        }}
-                                        childRef={this.locRef}
-                                    />
-                                    <View style={styles.locationIcon}>
-                                        <TouchableOpacity onPress={() => this.findCoordinates()}>
-                                            <Icon name='location-outline' size={20} color='black' />
-                                        </TouchableOpacity>
-                                    </View>
-
+                                <View style={styles.locationIcon}>
+                                    <TouchableOpacity onPress={() => this.findCoordinates()}>
+                                        <Icon name='location-outline' size={20} color='black' />
+                                    </TouchableOpacity>
                                 </View>
-                            </View>
 
-                            <View style={styles.inputContainer}>
-                                <Text style={styles.textContainer}>Description </Text>
-                                <TextInput
-                                    value={this.props.activityState.description}
-                                    multiline
-                                    maxLength={2048}
-                                    placeholder="Enter Description"
-                                    placeholderTextColor="#a6a6a6"
-                                    onChangeText={value => this._setDescription(value)}
-                                    style={{ paddingBottom: 50, fontSize: 16 }}
-                                />
-                            </View>
-
-                            {this.state.warning ? <Text style={{ marginLeft: 14 }}>Please Fill all the * fields</Text> : null}
-
-                            <View style={styles.goContainer}>
-                                <TouchableOpacity onPress={() => this._handleClick()}>
-
-                                    <Icon name='return-down-forward-outline' size={45} color='white' />
-                                </TouchableOpacity>
                             </View>
                         </View>
-                    </KeyboardAwareScrollView>
+
+                        <View style={styles.inputContainer}>
+                            <Text style={styles.textContainer}>Description </Text>
+                            <TextInput
+                                value={this.props.activityState.description}
+                                multiline
+                                maxLength={2048}
+                                placeholder="Enter Description"
+                                placeholderTextColor="#a6a6a6"
+                                onChangeText={value => this._setDescription(value)}
+                                style={{ paddingBottom: 50, fontSize: 16 }}
+                            />
+                        </View>
+
+                        {this.state.warning ? <Text style={{ marginLeft: 14 }}>Please Fill all the * fields</Text> : null}
+
+                        <View style={styles.goContainer}>
+                            <TouchableOpacity onPress={() => this._handleClick()}>
+
+                                <Icon name='return-down-forward-outline' size={45} color='white' />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                 </View>
             </TouchableWithoutFeedback>
         );

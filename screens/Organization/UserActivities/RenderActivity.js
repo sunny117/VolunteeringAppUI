@@ -161,7 +161,7 @@ class RenderActivity extends React.Component {
                                                             let value = element.activities.find(temp => temp.id == this.props.item._id);
                                                             return (
                                                                 <View key={element._id} style={index == 0 ? styles.ratingView : { ...styles.ratingView, borderTopWidth: 1, borderColor: 'pink' }}>
-                                                                    <Text style={{ fontSize: 12, fontStyle:'italic' }}>{element.name}</Text>
+                                                                    <Text style={{ fontSize: 12, fontStyle: 'italic' }}>{element.name}</Text>
                                                                     <Rating
                                                                         imageSize={20}
                                                                         startingValue={value.rating}
@@ -179,7 +179,7 @@ class RenderActivity extends React.Component {
                                                     )}
                                                 </View>
                                             </View>
-                                            : this.props.Completed && (!this.state.volunteerList || this.state.volunteerList.length > 0 )?
+                                            : this.props.Completed && (!this.state.volunteerList || this.state.volunteerList.length > 0) ?
                                                 <LoadingScreen
                                                     style={{
                                                         position: 'relative',
@@ -199,11 +199,11 @@ class RenderActivity extends React.Component {
                                     <Icon name='arrow-back-outline' size={30} color='white' />
                                 </TouchableOpacity>
                             </View>
-                            <View style={{ flex: 1, alignItems: 'flex-end' }}>
+                            {!this.props.Completed && <View style={{ flex: 1, alignItems: 'flex-end' }}>
                                 <TouchableOpacity onPress={() => this.captureView()} >
                                     <Icon name='share-social-outline' size={30} color='white' />
                                 </TouchableOpacity>
-                            </View>
+                            </View>}
                         </View>
                     </View>
                 </Modal>
