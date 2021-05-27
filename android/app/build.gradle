@@ -135,6 +135,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -183,6 +184,8 @@ android {
 
 dependencies {
 
+    implementation project(':react-native-linear-gradient')
+    
     implementation platform('com.google.firebase:firebase-bom:26.5.0')
 
     implementation 'com.google.firebase:firebase-analytics'

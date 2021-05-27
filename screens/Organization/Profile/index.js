@@ -11,6 +11,12 @@ import GoogleApi from '../../../util/googleApi';
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import * as authActions from '../../../store/Actions/authActions';
+import * as createActivity from '../../../store/Actions/createActivity';
+import * as orgActivityActions from '../../../store/Actions/orgActivityActions';
+import * as searchActivity from '../../../store/Actions/searchActivity';
+import * as volActivityActions from '../../../store/Actions/volActivityActions';
+import LinearGrad from '../../../components/LinearGrad';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 class Profile extends React.Component {
     constructor(props) {
@@ -21,6 +27,10 @@ class Profile extends React.Component {
         GoogleApi.signOut()
             .then(() => {
                 this.props.authActions.clearAuth();
+                this.props.createActivity.resetState();
+                this.props.orgActivityActions.clearActivities();
+                this.props.searchActivity.resetState();
+                this.props.volActivityActions.clearActivities();
             })
             .catch(error => {
                 console.log(error);
@@ -30,6 +40,7 @@ class Profile extends React.Component {
     render() {
         return (
             <View style={styles.container}>
+                <LinearGrad isOrg={true} />
                 <View style={styles.header}>
                     {this.props.userPhotoUrl ?
                         <Image style={styles.avatar} source={{ uri: this.props.userPhotoUrl }} />
@@ -47,10 +58,13 @@ class Profile extends React.Component {
                         <Text style={styles.info}>Description : {this.props.userDescription}</Text>
                         <Text style={styles.info}>Phone Number : {this.props.userContactNumber}</Text>
                         <Text style={styles.info}>Address : {this.props.userLocation}</Text>
-                        <TouchableOpacity style={styles.buttonContainer} onPress={() => this.signOut()}>
-                            <Text style={{ color: 'white' }}>SignOut</Text>
-                        </TouchableOpacity>
                     </View>
+                </View>
+                <View style={{ alignItems: 'center', margin: 30 }}>
+                    <TouchableOpacity onPress={() => this.signOut()} style={{ alignItems: 'center'}}>
+                        <Icon name='log-out-outline' size={45} color='white' />
+                        <Text style={{ color: 'white' }}>Signout</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         );
@@ -58,9 +72,12 @@ class Profile extends React.Component {
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1
+    },
     header: {
         backgroundColor: "#00BFFF",
-        height: 200,
+        height: 170,
     },
     menu: {
         marginTop: 50,
@@ -78,31 +95,30 @@ const styles = StyleSheet.create({
         borderColor: "white",
         marginBottom: 10,
         alignSelf: 'center',
-        marginTop: 130
+        marginTop: 100
     },
     body: {
         marginTop: 40,
     },
     bodyContent: {
-        flex: 1,
         alignItems: 'center',
         padding: 30,
     },
     name: {
         fontSize: 28,
-        color: "#696969",
+        color: "white",
         fontWeight: "600"
     },
     info: {
         fontSize: 16,
-        color: "#00BFFF",
+        color: "white",
         marginTop: 15,
         alignSelf: 'flex-start',
         fontWeight: 'bold'
     },
     description: {
         fontSize: 16,
-        color: "#696969",
+        color: "white",
         marginTop: 10,
         textAlign: 'center'
     },
@@ -115,7 +131,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         width: 100,
         borderRadius: 30,
-        backgroundColor: "#00BFFF",
+        backgroundColor: "white",
     },
 });
 
@@ -134,7 +150,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        authActions: bindActionCreators(authActions, dispatch)
+        authActions: bindActionCreators(authActions, dispatch),
+        createActivity: bindActionCreators(createActivity, dispatch),
+        orgActivityActions: bindActionCreators(orgActivityActions, dispatch),
+        searchActivity: bindActionCreators(searchActivity, dispatch),
+        volActivityActions: bindActionCreators(volActivityActions, dispatch)
     };
 };
 

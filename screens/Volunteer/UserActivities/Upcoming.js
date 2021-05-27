@@ -1,11 +1,13 @@
 import React from 'react';
 
 import { View, Text, StyleSheet, FlatList } from 'react-native';
-import RenderActivity from '../../../components/RenderActivity';
+import RenderActivity from './RenderActivity';
 
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import * as authActions from '../../../store/Actions/authActions';
+import LoadingScreen from '../../../components/LoadingScreen';
+import LinearGrad from '../../../components/LinearGrad';
 
 class Upcoming extends React.Component {
     constructor(props) {
@@ -15,7 +17,7 @@ class Upcoming extends React.Component {
     noResults = () => {
         return (
             <View style={{ alignItems: 'center', marginTop: 200 }}>
-                <Text style={{ color: 'blue' }}>No Activities!!</Text>
+                <Text style={{ color: 'white' }}>No Activities!!</Text>
             </View>
         );
     };
@@ -29,6 +31,8 @@ class Upcoming extends React.Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
+                <LinearGrad />
+                {this.props.isLoading && <LoadingScreen />}
                 {this.props.upcomingActivities === null || this.props.upcomingActivities == undefined || this.props.upcomingActivities.length === 0 ?
                     this.noResults()
                     :

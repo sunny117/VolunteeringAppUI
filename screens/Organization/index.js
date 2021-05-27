@@ -16,40 +16,47 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import Icon from 'react-native-vector-icons/Ionicons';
 import UserActivities from './UserActivities';
-
+import LoadingScreen from '../../components/LoadingScreen';
+import LinearGrad from '../../components/LinearGrad';
 
 class Organization extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            newUser: -1
+            newUser: -1,
+            loading: false,
+            warning: false
         };
     };
 
-    componentDidMount() {
-        OrganizationApi.getOrganization(this.props.userEmail)
-            .then(result => {
-                if (result.org.length == 0) {
-                    this.setState({
-                        newUser: 1
-                    })
-                }
-                else {
-                    this.setState({
-                        newUser: 0
-                    });
-                    let user = result.org[0];
-                    this.props.authActions.setAuth({
-                        userId: user._id,
-                        userName: user.name,
-                        userEmail: user.email,
-                        userDescription: user.orgDescription,
-                        userContactNumber: user.contactNumber,
-                        userLocation: user.location
-                    })
-                }
-            })
+    _setLoading = value => this.setState({ loading: value });
 
+    componentDidMount() {
+        this.setState({ loading: true }, function () {
+            OrganizationApi.getOrganization(this.props.userEmail)
+                .then(result => {
+                    if (result.org.length == 0) {
+                        this.setState({
+                            newUser: 1
+                        })
+                    }
+                    else {
+                        this.setState({
+                            newUser: 0
+                        });
+                        let user = result.org[0];
+                        this.props.authActions.setAuth({
+                            userId: user._id,
+                            userName: user.name,
+                            userEmail: user.email,
+                            userDescription: user.orgDescription,
+                            userContactNumber: user.contactNumber,
+                            userLocation: user.location
+                        })
+                    }
+                    this._setLoading(false);
+                })
+        })
     };
 
     onPressFinish() {
@@ -79,6 +86,8 @@ class Organization extends React.Component {
         if (this.state.newUser == 1) {
             return (
                 <View style={{ backgroundColor: 'grey', flex: 1 }}>
+                    <LinearGrad isOrg={true} />
+                    {this.state.loading && <LoadingScreen />}
                     <KeyboardAwareScrollView>
                         <View onStartShouldSetResponder={() => true}>
                             <Text style={{ ...styles.inputHeader, fontSize: 20, margin: 50, alignSelf: 'center' }}>ADD ORGANIZATION </Text>
@@ -121,7 +130,10 @@ class Organization extends React.Component {
                                     autoCorrect={false}
                                     keyboardType='number-pad'
                                     value={this.props.userContactNumber}
-                                    onChangeText={(value) => this.props.authActions.setUserContactNumber(value.replace(/[^0-9]/g, ''))}
+                                    onChangeText={(value) => {
+                                        if (value.length <= 10)
+                                            this.props.authActions.setUserContactNumber(value.replace(/[^0-9]/g, ''))
+                                    }}
                                 />
                             </View>
                             <View style={styles.inputContainer}>
@@ -135,10 +147,19 @@ class Organization extends React.Component {
                             </View>
 
                             <View style={styles.goContainer}>
-                                <TouchableOpacity onPress={() => this.onPressFinish()}>
+                                <TouchableOpacity onPress={() => {
+                                    if (this.props.userContactNumber.length == 10) {
+                                        this.setState({ warning: false })
+                                        this.onPressFinish()
+                                    }
+                                    else {
+                                        this.setState({ warning: true });
+                                    }
+                                }}>
                                     <Text style={styles.goText}>Add</Text>
                                 </TouchableOpacity>
                             </View>
+                            {this.state.warning && <Text style={{ color: "red" }}>*Contact number should have 10 digits*</Text>}
                         </View>
                     </KeyboardAwareScrollView>
                 </View>
@@ -173,7 +194,9 @@ class Organization extends React.Component {
                             marginBottom: 2,
                         },
                     }}>
-                    <Tab.Screen name="Home" component={Home} />
+                    <Tab.Screen name="Home">
+                        {(props) => <Home {...props} isLoading={this.state.loading} />}
+                    </Tab.Screen>
                     <Tab.Screen name="Activity" component={UserActivities} />
                     <Tab.Screen name="Profile" component={Profile} />
                 </Tab.Navigator>

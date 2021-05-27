@@ -1,11 +1,13 @@
 import React from 'react';
 
 import { View, Text, StyleSheet, FlatList } from 'react-native';
-import RenderActivity from '../../../components/RenderActivity';
+import RenderActivity from './RenderActivity';
 
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import * as authActions from '../../../store/Actions/authActions';
+import LoadingScreen from '../../../components/LoadingScreen';
+import LinearGrad from '../../../components/LinearGrad';
 
 class Completed extends React.Component {
     constructor(props) {
@@ -15,20 +17,22 @@ class Completed extends React.Component {
     noResults = () => {
         return (
             <View style={{ alignItems: 'center', marginTop: 200 }}>
-                <Text style={{ color: 'blue' }}>No Activities!!</Text>
+                <Text style={{ color: 'white' }}>No Activities!!</Text>
             </View>
         );
     };
 
     renderActivity = ({ item }) => {
         return (
-            <RenderActivity item={item} />
+            <RenderActivity item={item} Completed={true} />
         );
     };
 
     render() {
         return (
             <View style={{ flex: 1 }}>
+                <LinearGrad isOrg={true} />
+                {this.props.isLoading && <LoadingScreen />}
                 {this.props.completedActivities === null || this.props.completedActivities == undefined || this.props.completedActivities.length === 0 ?
                     this.noResults()
                     :

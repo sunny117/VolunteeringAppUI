@@ -14,13 +14,20 @@ import VolunteerApi from '../../../util/volunteerApi';
 class UserActivities extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            loading: false
+        }
     };
 
+    _setLoading = (value) => this.setState({ loading: value })
+
     fetchActivities() {
+        this._setLoading(true);
         VolunteerApi.getActivities(this.props.userId)
             .then(response => {
                 this.props.volActivityActions.setCompletedActivities(response.completedActivities);
                 this.props.volActivityActions.setUpcomingActivities(response.upcomingActivities);
+                this._setLoading(false);
             })
             .catch(error => {
                 console.log(error);
@@ -64,8 +71,12 @@ class UserActivities extends React.Component {
                         flexDirection: 'row'
                     },
                 }} >
-                <Tab.Screen name="Completed" component={Completed} />
-                <Tab.Screen name="Upcoming" component={Upcoming} />
+                <Tab.Screen name="Completed" >
+                    {(props) => <Completed {...props} isLoading={this.state.loading} />}
+                </Tab.Screen>
+                <Tab.Screen name="Upcoming">
+                    {(props) => <Upcoming {...props} isLoading={this.state.loading} />}
+                </Tab.Screen>
             </Tab.Navigator>
         );
     };

@@ -1,20 +1,20 @@
 export function setHeading( heading ) {
 	return {
-		type: 'SET_HEADING',
+		type: 'SET_CREATE_HEADING',
 		heading
 	}
 }
 
 export function setType( value ) {
 	return {
-		type: 'SET_TYPE',
+		type: 'SET_CREATE_TYPE',
 		value
 	}
 }
 
 export function setLocation( address, longitude, latitude ) {
 	return {
-		type: 'SET_LOCATION',
+		type: 'SET_CREATE_LOCATION',
 		address,
 		longitude,
 		latitude
@@ -23,27 +23,58 @@ export function setLocation( address, longitude, latitude ) {
 
 export function setStartDate( startDate ) {
 	return {
-		type: 'SET_START_DATE',
+		type: 'SET_CREATE_START_DATE',
 		startDate
 	}
 }
 
 export function setEndDate( endDate ) {
 	return {
-		type: 'SET_END_DATE',
+		type: 'SET_CREATE_END_DATE',
 		endDate
 	}
 }
 
+export function setSlotVisibility( id, isVisible ){
+    return {
+        type: 'SET_CREATE_VISIBLE',
+        filter: id,
+        payload: isVisible
+    }
+}
+
+export function setSlotAvailability( id, isAvailable ){
+    return {
+        type: 'SET_CREATE_AVAILABLE',
+        filter: id,
+        payload: isAvailable
+    }
+}
+
+export function setSlot( id, slot ) {
+    return {
+        type: 'SET_CREATE_SLOT',
+        filter: id,
+        payload: slot
+    }
+}
+
+export function setSlots( slots ){
+    return {
+        type: 'SET_CREATE_SLOTS',
+        slots
+    }
+}
+
 export function setDescription( description ) {
 	return {
-		type: 'SET_DESCRIPTION',
+		type: 'SET_CREATE_DESCRIPTION',
 		description
 	}
 }
 
 export function resetState() {
     return {
-        type: "RESET_STATE"
+        type: "CLEAR_CREATE_STATE"
     }
 }

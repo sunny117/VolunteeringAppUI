@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback, TextInput, Text, Button, Modal, Alert, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, Text, Button, TouchableOpacity } from 'react-native';
 
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
@@ -8,8 +8,11 @@ import { VA_DropDown } from '../../../components/VA_DropDown'
 import { VA_Location } from '../../../components/VA_Location'
 import { VA_DatePicker } from '../../../components/VA_DatePicker';
 import * as searchActivity from '../../../store/Actions/searchActivity'
+import * as authActions from '../../../store/Actions/authActions';
 import volunteerApi from '../../../util/volunteerApi'
 import { CurrentLocation } from '../../../util/currentLocation'
+import LoadingScreen from '../../../components/LoadingScreen';
+import LinearGrad from '../../../components/LinearGrad';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -28,7 +31,7 @@ class Search extends React.Component {
 
     _setEndDate = value => { this.props.activityActions.setEndDate(value) }
 
-    _handleClick = e => {
+    _handleClick = () => {
 
         volunteerApi.searchActivity(
             {
@@ -48,9 +51,11 @@ class Search extends React.Component {
             })
             .catch(err => {
                 console.log(err)
-                Alert.alert(
-                    title = "Something went wrong.. not able to retreive activities :("
-                )
+                this.props.dialogActions.setDialog("Something went wrong.. not able to retreive activities :(")
+                this.props.dialogActions.setDialogVisibility(true)
+                setTimeout(() => {
+                    this.props.dialogActions.setDialogVisibility(false);
+                }, 3000)
             })
 
     }
@@ -79,8 +84,10 @@ class Search extends React.Component {
         return (
             <TouchableWithoutFeedback>
                 <View style={styles.mainContainer}>
+                    <LinearGrad />
+                    {this.props.isLoading && <LoadingScreen />}
                     <View style={styles.header}>
-                        <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#2196F3' }}> Find an Activity </Text>
+                        <Text style={{ fontSize: 25, fontWeight: 'bold', color: 'white' }}> Find an Activity </Text>
                     </View>
                     <View style={styles.inputContainer}>
                         <Text style={styles.textContainer}>Type * </Text>
@@ -134,16 +141,10 @@ class Search extends React.Component {
                             />
                         </View>
                     </View>
-
-                    <View
-                        style={styles.button}
-                    >
-                        <Button
-                            title="Search"
-                            onPress={e => {
-                                this._handleClick(e)
-                            }}
-                        />
+                    <View style={styles.button}>
+                        <TouchableOpacity onPress={() => this._handleClick()}>
+                            <Icon name='checkmark-done-outline' size={45} color='white' />
+                        </TouchableOpacity>
                     </View>
                 </View>
             </TouchableWithoutFeedback>
@@ -179,9 +180,10 @@ const styles = StyleSheet.create({
     },
 
     textContainer: {
-        fontSize: 16,
+        fontSize: 12,
         fontWeight: 'bold',
         paddingTop: 5,
+        color: '#48ADF1'
     },
 
     dropDown: {
@@ -205,7 +207,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        activityActions: bindActionCreators(searchActivity, dispatch)
+        activityActions: bindActionCreators(searchActivity, dispatch),
+        dialogActions: bindActionCreators(authActions, dispatch)
     };
 };
 

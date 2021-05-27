@@ -12,9 +12,6 @@ const OrganizationApi = {
         })
         .then(response => response.json())
         .then(data => data)
-        .then(error => {
-            console.log(error)
-        })
     },
 
     getOrganization(email) {
@@ -47,6 +44,27 @@ const OrganizationApi = {
             }).then(jsonResponse => {
                 return jsonResponse;
             }).catch(error => console.log(error));
+    },
+
+    getVolunteers(activityId) {
+        return fetch(`${api.serverAddress}/organization/volunteers/${activityId}`)
+            .then(response => {
+                return response.json();
+            }).then(jsonResponse => {
+                return jsonResponse;
+            }).catch(error => console.log(error));
+    },
+
+    rateVolunteer(value){
+        return fetch(`${api.serverAddress}/organization/rate_volunteer`, {
+            method: 'PUT',
+            headers: { 
+                'Content-Type': 'application/json'
+             },
+            body: JSON.stringify(value)
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
     }
 
 };
