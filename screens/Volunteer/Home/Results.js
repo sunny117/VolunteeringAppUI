@@ -29,8 +29,8 @@ class Results extends React.Component {
     noResults = () => {
         return (
             <View style={{ flex: 1, alignItems: 'center', marginTop: 200 }}>
-                <Text style={{ color: 'blue' }}>No Results found for your search!!</Text>
-                <Text style={{ color: 'blue' }}>Please Try Again</Text>
+                <Text style={{ color: 'white' }}>No Results found for your search!!</Text>
+                <Text style={{ color: 'white' }}>Please Try Again</Text>
             </View>
         );
     };

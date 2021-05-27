@@ -17,7 +17,7 @@ class Completed extends React.Component {
     noResults = () => {
         return (
             <View style={{ alignItems: 'center', marginTop: 200 }}>
-                <Text style={{ color: 'blue' }}>No Activities!!</Text>
+                <Text style={{ color: 'white' }}>No Activities!!</Text>
             </View>
         );
     };

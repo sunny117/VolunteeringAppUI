@@ -51,7 +51,8 @@ class Volunteer extends React.Component {
                             userEmail: user.email,
                             userDescription: user.orgDescription,
                             userContactNumber: user.contactNumber,
-                            userLocation: user.location
+                            userLocation: user.location,
+                            userRating: user.avgRating
                         })
                     }
                     this._setLoading(false);
@@ -70,6 +71,16 @@ class Volunteer extends React.Component {
             this.setState({
                 newUser: 0
             });
+            const user = result.volunteer
+            this.props.authActions.setAuth({
+                userId: user._id,
+                userName: user.name,
+                userEmail: user.email,
+                userDescription: user.orgDescription,
+                userContactNumber: user.contactNumber,
+                userLocation: user.location,
+                userRating: user.avgRating
+            })
         })
     };
 

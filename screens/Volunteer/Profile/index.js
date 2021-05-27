@@ -58,10 +58,11 @@ class Profile extends React.Component {
                         <Text style={styles.info}>Email : {this.props.userEmail}</Text>
                         <Text style={styles.info}>Phone Number : {this.props.userContactNumber}</Text>
                         <Text style={styles.info}>Address : {this.props.userLocation}</Text>
+                        <Text style={styles.info}>Avg. Rating : {this.props.userRating == -1 ? <Text> UnRated </Text> : this.props.userRating}</Text>
                     </View>
                 </View>
                 <View style={{ alignItems: 'center', margin: 30 }}>
-                    <TouchableOpacity onPress={() => this.signOut()} style={{ alignItems: 'center'}}>
+                    <TouchableOpacity onPress={() => this.signOut()} style={{ alignItems: 'center' }}>
                         <Icon name='log-out-outline' size={45} color='white' />
                         <Text style={{ color: 'white' }}>Signout</Text>
                     </TouchableOpacity>
@@ -145,7 +146,8 @@ function mapStateToProps(state) {
         userEmail: state.authReducer.userEmail,
         userDescription: state.authReducer.userDescription,
         userContactNumber: state.authReducer.userContactNumber,
-        userLocation: state.authReducer.userLocation
+        userLocation: state.authReducer.userLocation,
+        userRating: state.authReducer.userRating
     };
 };
 

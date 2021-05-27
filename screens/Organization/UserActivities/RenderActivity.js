@@ -19,7 +19,6 @@ class RenderActivity extends React.Component {
         super(props);
         this.state = {
             modalVisible: false,
-            volunteerList: [],
             isLoading: false,
             uri: "",
         }
@@ -153,7 +152,7 @@ class RenderActivity extends React.Component {
                                             }
                                         </View>
 
-                                        {this.props.Completed && this.state.volunteerList.length > 0 && !this.state.isLoading ?
+                                        {this.props.Completed && this.state.volunteerList && this.state.volunteerList.length > 0 && !this.state.isLoading ?
                                             <View style={styles.mainView}>
                                                 <Text style={styles.titleText}>Volunteer Rating</Text>
                                                 <View>
@@ -180,7 +179,7 @@ class RenderActivity extends React.Component {
                                                     )}
                                                 </View>
                                             </View>
-                                            : this.props.Completed && this.state.volunteerList.length > 0 ?
+                                            : this.props.Completed && (!this.state.volunteerList || this.state.volunteerList.length > 0 )?
                                                 <LoadingScreen
                                                     style={{
                                                         position: 'relative',
